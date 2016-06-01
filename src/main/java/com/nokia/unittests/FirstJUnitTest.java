@@ -7,16 +7,12 @@ import org.hamcrest.core.IsEqual;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class FirstJUnitTest {
 	private List<String> values;
 	
-	@BeforeClass
-	public void setUPClass() {
-		System.out.println("Prepare class");
-	}
+
 	
 	@Before
 	public void setUP() {
@@ -27,7 +23,7 @@ public class FirstJUnitTest {
 	@Test
 	public void shouldAddElements() {
 		System.out.println("Run tet 1");
-		
+		//given
 		values.add("element");
 		Assert.assertThat(values.get(0), IsEqual.equalTo("element"));
 	}
@@ -35,8 +31,11 @@ public class FirstJUnitTest {
 	@Test
 	public void shouldRemoveElements() {
 		System.out.println("Run test 2");
+		//given
 		values.add("element");
-		values.remove(0);
+		//when
+		values.remove(0);		
+		//then
 		Assert.assertEquals(values.size(),0);
 	}
 	

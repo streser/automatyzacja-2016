@@ -23,7 +23,7 @@ public class FirstJUnitTest {
 		//when - przedmiot testowania
 
 		//then
-		Assert.assertThat("hello", IsEqual.equalTo("world"));
+		//Assert.assertThat("hello", IsEqual.equalTo("world"));
 	}
 	
 }

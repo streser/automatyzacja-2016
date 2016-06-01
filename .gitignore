@@ -1,0 +1,11 @@
+#exclude idea
+.idea
+*.iml
+
+#exclude eclipse
+.settings
+.project
+.classpath
+
+#exclude maven
+target

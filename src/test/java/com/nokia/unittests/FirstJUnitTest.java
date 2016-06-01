@@ -1,7 +1,7 @@
 package com.nokia.unittests;
 
-import org.hamcrest.core.IsEqual;
-import org.junit.Assert;
+//import org.hamcrest.core.IsEqual;
+//import org.junit.Assert;
 import org.junit.Test;
 
 public class FirstJUnitTest {
@@ -23,7 +23,7 @@ public class FirstJUnitTest {
 		//when - przedmiot testowania
 
 		//then
-		Assert.assertThat("hello", IsEqual.equalTo("world"));
+		//Assert.assertThat("hello", IsEqual.equalTo("world"));
 	}
 	
 }

@@ -47,7 +47,6 @@ public class ArrayTest {
 		//given
 		list.add("element-1");
 		list.add("element-2");
-		System.out.println(list);
 
 		//when
 		String element = list.get(list.size() - 2);

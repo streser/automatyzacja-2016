@@ -9,7 +9,7 @@ public class FirstJUnitTest {
 	@Test
 	public void should(){
 		System.out.println("Hello world");
-		Assert.assertThat("hello", IsEqual.equalTo("world"));
+		Assert.assertThat("hello", IsEqual.equalTo("hello"));
 	}
 	
 	

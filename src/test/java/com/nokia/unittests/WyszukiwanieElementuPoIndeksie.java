@@ -1,3 +1,4 @@
+/*
 package com.nokia.unittests;
 
 import org.hamcrest.core.IsEqual;
@@ -44,3 +45,4 @@ public class WyszukiwanieElementuPoIndeksie {
 // git commit (akceptacja zmian lokalnie)
 // git pull (pobranie z serwera)
 // git push origin master:rafalh
+*/

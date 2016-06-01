@@ -7,7 +7,7 @@ import org.junit.*;
 
 public class FirstJUnitTest {
 	
-	static List<String> list = new ArrayList<>();
+	static List<String> list = new ArrayList<String>();
 	int startSize;
 	
 	@Before

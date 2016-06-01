@@ -26,12 +26,9 @@ public class FirstJUnitTest {
 
 	@Test
 	public void shouldElementDeleteFromList() {
+		int size = TestList.size();
 		TestList.remove(TestList.get(TestList.size()-1));
-		Assert.assertEquals("item_5", TestList.get(TestList.size()-1));
+		Assert.assertEquals(TestList.size(), size-1);
 	}
 	
-	@Test
-	public void shouldElementSearchByIndex() {
-		
-	}
 }

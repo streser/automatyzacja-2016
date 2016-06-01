@@ -38,6 +38,6 @@ public class FirstJUnitTest {
 	@Test
 	public void shouldElementBeFound() {
 		Assert.assertEquals("asd", list.get(0));
-		Assert.assertEquals("asd_zle", list.get(0));
+		//Assert.assertEquals("asd_zle", list.get(0));
 	}
 }

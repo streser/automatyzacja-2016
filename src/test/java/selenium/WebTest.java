@@ -20,13 +20,21 @@ public class WebTest {
 
 	@Test
 	public void testSeleniumTestJunit() throws Exception {
+		SetupWebTestEnv();
+		LoginForWebTest("szkolenieautomatyzacja", "qw12qw12");
+	}
+
+	private void SetupWebTestEnv() {
 		driver.get(baseUrl + "/");
 		driver.findElement(By.className("click-wpcom-login")).click();
 		driver.findElement(By.id("user_login")).isDisplayed();
+	}
+
+	private void LoginForWebTest(String userID, String userPassword) {
 		driver.findElement(By.id("user_login")).clear();
-		driver.findElement(By.id("user_login")).sendKeys("szkolenieautomatyzacja");
+		driver.findElement(By.id("user_login")).sendKeys(userID);
 		driver.findElement(By.id("user_pass")).clear();
-		driver.findElement(By.id("user_pass")).sendKeys("qw12qw12");
+		driver.findElement(By.id("user_pass")).sendKeys(userPassword);
 		driver.findElement(By.id("wp-submit")).click();
 	}
 

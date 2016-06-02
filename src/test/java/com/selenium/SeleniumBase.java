@@ -29,7 +29,7 @@ public class SeleniumBase {
 	}
 
 	protected void webLogOut() throws InterruptedException {
-		driver.findElement(By.cssSelector("img.gravatar")).click();
+		click(By.cssSelector("img.gravatar"));
 		for (int second = 0;; second++) {
 			if (second >= 60)
 				fail("timeout");
@@ -40,16 +40,33 @@ public class SeleniumBase {
 			}
 			Thread.sleep(1000);
 		}
-		driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
+		click(By.xpath("(//button[@type='submit'])[2]"));
 	}
 
 	protected void webLogin(String user, String password) {
-		driver.findElement(By.linkText("Zaloguj się")).click();
-		driver.findElement(By.id("user_login")).clear();
-		driver.findElement(By.id("user_login")).sendKeys(user);
-		driver.findElement(By.id("user_pass")).clear();
-		driver.findElement(By.id("user_pass")).sendKeys(password);
-		driver.findElement(By.id("wp-submit")).click();
+
+		insertText(user, "user_login");
+		insertText(password, "user_pass");
+
+		click(By.id("wp-submit"));
+	}
+
+	private void insertText(String user, String identifier) {
+		driver.findElement(By.id(identifier)).clear();
+		driver.findElement(By.id(identifier)).sendKeys(user);
+	}
+
+	private void open(String path) {
+		driver.get(path);
+	}
+
+	protected void openLogIn() {
+		open(baseUrl + "/");
+		click(By.linkText("Zaloguj się"));
+	}
+
+	private void click(By identifier) {
+		driver.findElement(identifier).click();
 	}
 
 	@After

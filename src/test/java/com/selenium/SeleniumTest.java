@@ -8,7 +8,7 @@ import org.openqa.selenium.*;
 public class SeleniumTest extends SeleniumBase {
 	@Test
 	public void testAutomation() throws Exception {
-		driver.get(baseUrl);
+		openLogIn();
 		webLogin("szkolenieautomatyzacja", "qw12qw12");
 		checkIfLoginSuccessful(); 
 		webLogOut();

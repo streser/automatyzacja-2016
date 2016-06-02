@@ -1,14 +1,11 @@
 package com.selenium;
 
-import static org.junit.Assert.fail;
 import java.util.concurrent.TimeUnit;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
+import org.junit.*;
+import static org.junit.Assert.*;
+import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+ 
 
 public class SeleniumTest {
 	private WebDriver driver;
@@ -26,24 +23,27 @@ public class SeleniumTest {
 	public void testAutomation() throws Exception {
 		driver.get(baseUrl);
 		webLogin("szkolenieautomatyzacja", "qw12qw12");
-		driver.findElement(By.id("wp-submit")).click();
-		driver.findElement(By.cssSelector("img.gravatar")).click();
-		waitForElement("(//button[@type='submit'])[2]");
-		driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
+		checkIfLoginSuccessful(); 
+		webLogOut();
 	}
 
+	private void checkIfLoginSuccessful() {
+		assertTrue(isElementPresent(By.xpath("//header[@id='header']/a[2]/span"))); 
+	}
 
-	private void waitForElement(String element) throws InterruptedException {
+	private void webLogOut() throws InterruptedException {
+		driver.findElement(By.cssSelector("img.gravatar")).click();
 		for (int second = 0;; second++) {
 			if (second >= 60)
 				fail("timeout");
 			try {
-				if (isElementPresent(By.xpath(element)))
+				if (isElementPresent(By.xpath("(//button[@type='submit'])[2]")))
 					break;
 			} catch (Exception e) {
 			}
 			Thread.sleep(1000);
 		}
+		driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
 	}
 
 	private void webLogin(String user, String password) {
@@ -52,6 +52,7 @@ public class SeleniumTest {
 		driver.findElement(By.id("user_login")).sendKeys(user);
 		driver.findElement(By.id("user_pass")).clear();
 		driver.findElement(By.id("user_pass")).sendKeys(password);
+		driver.findElement(By.id("wp-submit")).click();
 	}
 
 	@After

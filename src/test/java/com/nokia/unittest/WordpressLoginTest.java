@@ -29,24 +29,33 @@ public class WordpressLoginTest {
     @Test
     public void testLoginWordPress() throws Exception {
 	wordpressLogin("szkolenieautomatyzacja", "qw12qw12");
+	assertLoginSuccessfull();
 	wordpressLogout();
+	// verify logged out
 	waitForElement(By.className("click-wpcom-login"));
     }
 
     private void wordpressLogout() throws InterruptedException {
-	waitForElement(By.cssSelector("svg.gridicon.gridicons-user-circle"));
-	assertTrue(isElementPresent(By.cssSelector("svg.gridicon.gridicons-user-circle")));
 	driver.findElement(By.cssSelector("svg.gridicon.gridicons-user-circle  > g > path")).click();
 	waitForElement(By.xpath("(//button[@type='submit'])[2]"));
 	driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
     }
 
+    private void assertLoginSuccessfull() throws InterruptedException {
+	waitForElement(By.cssSelector("svg.gridicon.gridicons-user-circle"));
+	assertTrue(isElementPresent(By.cssSelector("svg.gridicon.gridicons-user-circle")));
+    }
+
     private void wordpressLogin(String login, String pass) {
-	driver.get(baseUrl + "/");
-	driver.findElement(By.className("click-wpcom-login")).click();
+	openLoginPage();
 	insertTextInto("user_login", login);
 	insertTextInto("user_pass", pass);
 	driver.findElement(By.id("wp-submit")).click();
+    }
+
+    private void openLoginPage() {
+	driver.get(baseUrl + "/");
+	driver.findElement(By.className("click-wpcom-login")).click();
     }
 
     private void waitForElement(By selector) throws InterruptedException {

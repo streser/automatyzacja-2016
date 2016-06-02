@@ -1,13 +1,10 @@
 package com.nokia.testautomation;
 
-import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.junit.*;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
 
 public class SeleniumIDETest {
   private WebDriver driver;
@@ -24,22 +21,34 @@ public class SeleniumIDETest {
 
   @Test
   public void testSelen() throws Exception {
-    driver.get(baseUrl + "/");
-    driver.findElement(By.className("click-wpcom-login")).click();
-    driver.findElement(By.id("user_login")).clear();
-    driver.findElement(By.id("user_login")).sendKeys("szkolenieautomatyzacja");
-    driver.findElement(By.id("user_pass")).clear();
-    driver.findElement(By.id("user_pass")).sendKeys("qw12qw12");
-    driver.findElement(By.id("wp-submit")).click();
-    driver.findElement(By.cssSelector("img.gravatar")).click();
-    for (int second = 0;; second++) {
+    logIn("szkolenieautomatyzacja", "qw12qw12");
+    logOut();
+  }
+
+public void logOut() throws InterruptedException {
+	driver.findElement(By.cssSelector("img.gravatar")).click();
+	By logoutButton = By.xpath("(//button[@type='submit'])[2]");
+    waitForElement(logoutButton);
+    driver.findElement(logoutButton).click();
+}
+
+public void waitForElement(By byElem) throws InterruptedException {
+	for (int second = 0;; second++) {
     	if (second >= 60) fail("timeout");
-    	try { if (isElementPresent(By.xpath("(//button[@type='submit'])[2]"))) break; } catch (Exception e) {}
+    	try { if (isElementPresent(byElem)) break; } catch (Exception e) {}
     	Thread.sleep(1000);
     }
+}
 
-    driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
-  }
+public void logIn(String login, String password) {
+	driver.get(baseUrl + "/");
+	driver.findElement(By.className("click-wpcom-login")).click();
+    driver.findElement(By.id("user_login")).clear();
+    driver.findElement(By.id("user_login")).sendKeys(login);
+    driver.findElement(By.id("user_pass")).clear();
+    driver.findElement(By.id("user_pass")).sendKeys(password);
+    driver.findElement(By.id("wp-submit")).click();
+}
 
   @After
   public void tearDown() throws Exception {
@@ -56,30 +65,6 @@ public class SeleniumIDETest {
       return true;
     } catch (NoSuchElementException e) {
       return false;
-    }
-  }
-
-  private boolean isAlertPresent() {
-    try {
-      driver.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
-
-  private String closeAlertAndGetItsText() {
-    try {
-      Alert alert = driver.switchTo().alert();
-      String alertText = alert.getText();
-      if (acceptNextAlert) {
-        alert.accept();
-      } else {
-        alert.dismiss();
-      }
-      return alertText;
-    } finally {
-      acceptNextAlert = true;
     }
   }
 }

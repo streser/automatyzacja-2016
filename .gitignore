@@ -1,7 +1,2 @@
-#exclude eclipse
-.settings
-.project
-.classpath
 
-#exclude maven
-target
+/target/

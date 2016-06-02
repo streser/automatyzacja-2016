@@ -13,6 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class SeleniumBase {
 
+	private static final String LOGOUT_BUTTON_LOCATOR = "(//button[@type='submit'])[2]";
 	private WebDriver driver;
 	private String baseUrl;
 	private StringBuffer verificationErrors = new StringBuffer();
@@ -28,42 +29,6 @@ public class SeleniumBase {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
-	protected void openLogInForm() {
-		driver.get(baseUrl + "/");
-		driver.findElement(By.linkText("Zaloguj się")).click();
-	}
-
-	private void inputText(String elementId, String elementValue) {
-		driver.findElement(By.id(elementId)).clear();
-		driver.findElement(By.id(elementId)).sendKeys(elementValue);
-	}
-
-	protected void logOut() throws InterruptedException {
-		driver.findElement(By.cssSelector("img.gravatar")).click();
-		waitForElement("description");
-		driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
-	}
-
-	protected void logIn(String user, String password) {
-		inputText("user_login", user);
-		inputText("user_pass", password);
-		driver.findElement(By.id("rememberme")).click();
-		driver.findElement(By.id("wp-submit")).click();
-	}
-
-	private void waitForElement(String elementId) throws InterruptedException {
-		for (int second = 0;; second++) {
-			if (second >= 60)
-				fail("timeout");
-			try {
-				if (isElementPresent(By.id(elementId)))
-					break;
-			} catch (Exception e) {
-			}
-			Thread.sleep(1000);
-		}
-	}
-
 	@After
 	public void tearDown() throws Exception {
 		driver.quit();
@@ -73,6 +38,28 @@ public class SeleniumBase {
 		}
 	}
 
+	protected void openLogInForm() {
+		open("/");
+		click(By.linkText("Zaloguj się"));
+	}
+
+	protected void logOut() throws InterruptedException {
+		click(By.cssSelector("img.gravatar"));
+		for (int second = 0;; second++) {
+			if (second >= 60) fail("timeout");
+			try { if (isElementPresent(By.id("description"))) break; } catch (Exception e) {}
+			Thread.sleep(1000);
+		}
+		driver.findElement(By.xpath(LOGOUT_BUTTON_LOCATOR)).click();
+	}
+
+	protected void logIn(String user, String password) {
+		insertText("user_login", user);
+		insertText("user_pass", password);
+		click(By.id("rememberme"));
+		click(By.id("wp-submit"));
+	}
+
 	protected boolean isElementPresent(By by) {
 		try {
 			driver.findElement(by);
@@ -80,6 +67,19 @@ public class SeleniumBase {
 		} catch (NoSuchElementException e) {
 			return false;
 		}
+	}
+
+	private void insertText(String elementId, String elementValue) {
+		driver.findElement(By.id(elementId)).clear();
+		driver.findElement(By.id(elementId)).sendKeys(elementValue);
+	}
+
+	private void open(String path) {
+		driver.get(baseUrl + path);
+	}
+
+	private void click(By identifier) {
+		driver.findElement(identifier).click();
 	}
 
 }

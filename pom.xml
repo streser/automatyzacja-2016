@@ -5,6 +5,10 @@
 	<groupId>com.nokia</groupId>
 	<artifactId>testautomation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<!-- http://mvnrepository.com/artifact/junit/junit -->
 	<dependencies>

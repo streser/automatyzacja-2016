@@ -2,6 +2,7 @@ package com.nokia.unittest;
 
 import static org.junit.Assert.fail;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -64,8 +65,12 @@ public class SeleniumBase {
     }
 
     private void insertTextInto(String fieldName, String text) {
-        driver.findElement(By.id(fieldName)).clear();
-        driver.findElement(By.id(fieldName)).sendKeys(text);
+	insertText(By.id(fieldName), text);
+    }
+
+    private void insertText(By fieldName, String text) {
+        driver.findElement(fieldName).clear();
+        driver.findElement(fieldName).sendKeys(text);
     }
 
     @After
@@ -85,5 +90,19 @@ public class SeleniumBase {
             return false;
         }
     }
+    
+    public String randomName() {
+	return "witw " + UUID.randomUUID().toString();
+    }
 
+    public String createPost() throws InterruptedException {
+	String pName = randomName();
+	waitForElement(By.className("masterbar__item-new"));
+	click(By.className("masterbar__item-new")); // new post
+	insertText(By.className("editor-title__input"),pName);
+	//insertTextInto("tinymce-1_ifr", pName);
+	
+	click(By.className("editor-ground-control__publish-button"));
+	return pName;
+    }
 }

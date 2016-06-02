@@ -13,28 +13,28 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class FirstJUnitTest {
-    
+
     private static ArrayList<String> list;
-    
+
     @BeforeClass
     public static void newList() {
 	list = new ArrayList<String>();
     }
-    
+
     @Before
     public void cleanList() {
-	if (list==null)
+	if (list == null)
 	    return;
-	if (list.size()>0)
+	if (list.size() > 0)
 	    list.clear();
     }
-    
+
     @Test
     public void insertTest() {
 	list.add("1");
 	list.add("2");
 	list.add("3");
-	
+
 	Assert.assertThat(list.size(), IsEqual.equalTo(3));
     }
 
@@ -56,6 +56,5 @@ public class FirstJUnitTest {
 	Assert.assertFalse(list.contains("bla bla bla"));
 
     }
-    
-    
+
 }

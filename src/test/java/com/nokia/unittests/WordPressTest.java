@@ -9,9 +9,10 @@ import org.openqa.selenium.*;
 
 
 public class WordPressTest extends SeleniumBase {
+	
   @Test
   public void testAutomation() throws Exception {
-    driver.get("https://pl.wordpress.com");
+    
     logIn("szkolenieautomatyzacja", "qw12qw12");
     
     checkLoginSuccessful();

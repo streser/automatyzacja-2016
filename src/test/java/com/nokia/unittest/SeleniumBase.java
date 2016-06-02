@@ -29,21 +29,25 @@ public class SeleniumBase {
     }
 
     protected void wordpressLogout() throws InterruptedException {
-        driver.findElement(By.cssSelector("svg.gridicon.gridicons-user-circle  > g > path")).click();
+        click(By.cssSelector("svg.gridicon.gridicons-user-circle  > g > path"));
         waitForElement(By.xpath("(//button[@type='submit'])[2]"));
-        driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
+        click(By.xpath("(//button[@type='submit'])[2]"));
+    }
+
+    private void click(By element) {
+	driver.findElement(element).click();
     }
 
     protected void wordpressLogin(String login, String pass) {
         openLoginPage();
         insertTextInto("user_login", login);
         insertTextInto("user_pass", pass);
-        driver.findElement(By.id("wp-submit")).click();
+        click(By.id("wp-submit"));
     }
 
     private void openLoginPage() {
         driver.get(baseUrl + "/");
-        driver.findElement(By.className("click-wpcom-login")).click();
+        click(By.className("click-wpcom-login"));
     }
 
     protected void waitForElement(By selector) throws InterruptedException {

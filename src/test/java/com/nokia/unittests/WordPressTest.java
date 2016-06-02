@@ -24,19 +24,29 @@ public class WordPressTest {
   @Test
   public void testAutomation() throws Exception {
     driver.get("https://pl.wordpress.com");
-    WebElement loginElement =  waitForElementByLinkText("Zaloguj się");
+    logIn("szkolenieautomatyzacja", "qw12qw12");
+    
+    checkLoginSuccessful();
+  }
+
+private void checkLoginSuccessful() {
+	assertTrue(isElementPresent(By.xpath("//header[@id='header']/a[2]/span")) != null);
+}
+
+private void logIn(String userName, String password) throws InterruptedException {
+	WebElement loginElement =  waitForElementByLinkText("Zaloguj się");
     loginElement.click();
 
     WebElement userLogin =getWebElementById("user_login");
     
-    insertText(userLogin,"szkolenieautomatyzacja");
+    insertText(userLogin,userName);
      
     WebElement userPass = getWebElementById("user_pass");
-    insertText(userPass,"qw12qw12");
+    insertText(userPass,password);
     
     WebElement submitElement = waitForElementById("wp-submit");
     submitElement.click();
-  }
+}
 
   
   private void insertText(WebElement element, String text)
@@ -46,6 +56,11 @@ public class WordPressTest {
   }
   
   private WebElement getWebElementByLinkText(String linkText)
+  {
+	  return driver.findElement(By.linkText(linkText));
+  }
+  
+  private WebElement getWebElementByXPath(String linkText)
   {
 	  return driver.findElement(By.linkText(linkText));
   }

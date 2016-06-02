@@ -16,13 +16,13 @@ public class FirstJUnitTest {
 	
 	@Before
 	public void setUP() {
-		System.out.println("Prepare");
+		//System.out.println("Prepare");
 		values = new ArrayList<String>();
 	}
 	
 	@Test
 	public void shouldAddElements() {
-		System.out.println("Run tet 1");
+		//System.out.println("Run tet 1");
 		//given
 		values.add("element");
 		Assert.assertThat(values.get(0), IsEqual.equalTo("element"));
@@ -30,7 +30,7 @@ public class FirstJUnitTest {
 	
 	@Test
 	public void shouldRemoveElements() {
-		System.out.println("Run test 2");
+		//System.out.println("Run test 2");
 		//given
 		values.add("element");
 		//when

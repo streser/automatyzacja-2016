@@ -21,7 +21,8 @@ public class WebTest {
 	  @Test
 	  public void testSeleniumTestJunit() throws Exception {
 	    driver.get(baseUrl + "/");
-	    driver.findElement(By.linkText("Zaloguj się")).click();
+	    //driver.findElement(By.linkText("Zaloguj się")).click();
+	    driver.findElement(By.className("click-wpcom-login")).click();
 	    for (int second = 0;; second++) {
 	    	if (second >= 60) fail("timeout");
 	    	try { if (isElementPresent(By.id("wp-submit"))) break; } catch (Exception e) {}

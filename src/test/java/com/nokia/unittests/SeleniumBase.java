@@ -44,24 +44,24 @@ public class SeleniumBase {
 			    submitElement.click();
 			}
 
-	private void insertText(WebElement element, String text) {
+	protected void insertText(WebElement element, String text) {
 		  element.clear();
 		  element.sendKeys(text);  
 	  }
 
-	private WebElement getWebElementByLinkText(String linkText) {
+	protected WebElement getWebElementByLinkText(String linkText) {
 		  return driver.findElement(By.linkText(linkText));
 	  }
 
-	private WebElement getWebElementByXPath(String linkText) {
+	protected WebElement getWebElementByXPath(String linkText) {
 		  return driver.findElement(By.linkText(linkText));
 	  }
 
-	private WebElement getWebElementById(String id) {
+	protected WebElement getWebElementById(String id) {
 		  return driver.findElement(By.id(id));
 	  }
 
-	private WebElement waitForElementByLinkText(String linkText)
+	protected WebElement waitForElementByLinkText(String linkText)
 			throws InterruptedException {
 				for (int second = 0;; second++) {
 			    	if (second >= 60) fail("timeout");
@@ -74,12 +74,24 @@ public class SeleniumBase {
 			    }
 			}
 
-	private WebElement waitForElementById(String id) throws InterruptedException {
+	protected WebElement waitForElementById(String id) throws InterruptedException {
 		for (int second = 0;; second++) {
 	    	if (second >= 60) fail("timeout");
 	    	try 
 	    	{ 
 	    		WebElement element = isElementPresent(By.id(id));
+	    		if (element != null) return element; 
+	    	} catch (Exception e) {}
+	    	Thread.sleep(1000);
+	    }		
+	}
+	
+	protected WebElement waitForElementByXpath(String xpath) throws InterruptedException {
+		for (int second = 0;; second++) {
+	    	if (second >= 60) fail("timeout");
+	    	try 
+	    	{ 
+	    		WebElement element = isElementPresent(By.xpath(xpath));
 	    		if (element != null) return element; 
 	    	} catch (Exception e) {}
 	    	Thread.sleep(1000);
@@ -95,7 +107,7 @@ public class SeleniumBase {
 	    }
 	  }
 	
-	private void openUrl(String url)
+	protected void openUrl(String url)
 	{
 		driver.get(url);
 	}

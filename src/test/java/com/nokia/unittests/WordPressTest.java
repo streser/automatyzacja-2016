@@ -13,9 +13,9 @@ public class WordPressTest extends SeleniumBase {
   @Test
   public void testAutomation() throws Exception {
     
-    logIn("szkolenieautomatyzacja", "qw12qw12");
+    //logIn("szkolenieautomatyzacja", "qw12qw12");
     
-    checkLoginSuccessful();
+    //checkLoginSuccessful();
   }
 
 private void checkLoginSuccessful() {

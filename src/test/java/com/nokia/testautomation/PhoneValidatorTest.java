@@ -3,7 +3,12 @@ package com.nokia.testautomation;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+
+@RunWith(JUnitParamsRunner.class)
 public class PhoneValidatorTest {
 	
 	PhoneValidator phonevalid;
@@ -13,43 +18,15 @@ public class PhoneValidatorTest {
 		phonevalid = new PhoneValidator();
 	}
 	@Test
-	public void validatePhoneNumberSimpleFormat(){
-		String number = "1234567890";
+	@Parameters({"1234567890", "123-456-7890", "123-456-7890 x1234", "123-456-7890 ext12345" })
+	public void validateCorrectPhoneNumber(String number){
 		Assert.assertTrue(phonevalid.validatePhoneNumber(number));
 	}
 	@Test
-	public void validatePhoneNumberWithLines(){
-		String number = "123-456-7890";
-		Assert.assertTrue(phonevalid.validatePhoneNumber(number));
-	}
-	@Test
-	public void validatePhoneNumberExtensionLength3(){
-		String number = "123-456-7890 x1234";
-		Assert.assertTrue(phonevalid.validatePhoneNumber(number));
-	}
-	@Test
-	public void validatePhoneNumberExtensionLength5(){
-		String number = "123-456-7890 ext1234";
-		Assert.assertTrue(phonevalid.validatePhoneNumber(number));
-	}
-	@Test
-	public void validatePhoneNumberWithBraces(){
-		String number = "(123)-456-7890";
-		Assert.assertTrue(phonevalid.validatePhoneNumber(number));
-	}
-	@Test
-	public void validatePhoneNumberWithDots(){
-		String number = "123.456.7890";
-		Assert.assertTrue(phonevalid.validatePhoneNumber(number));
-	}
-	@Test
-	public void validatePhoneNumberWithSpaces(){
-		String number = "123 456 7890";
-		Assert.assertTrue(phonevalid.validatePhoneNumber(number));
-	}
-	@Test
-	public void validatePhoneNumberIncorrect(){
-		String number = "123 456 7890 1";
+	@Parameters({"", "123-456-7890 12", "123-456?7890", "123-456-7890 ext123456" })
+	public void validateIncorrectPhoneNumber(String number){
 		Assert.assertFalse(phonevalid.validatePhoneNumber(number));
 	}
+	
+	
 }

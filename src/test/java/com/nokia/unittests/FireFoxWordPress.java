@@ -8,12 +8,10 @@ import org.openqa.selenium.By;
 public class FireFoxWordPress extends SeleniumBase {
 	@Test
 	public void testAutomation() throws Exception {
-		
+
 		logIn("szkolenieautomatyzacja", "qw12qw12");
 		assertThatLoginWasSuccessful();
 		logOut();
-
-		
 	}
 
 	private void assertThatLoginWasSuccessful() {

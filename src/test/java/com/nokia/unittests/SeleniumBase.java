@@ -2,6 +2,7 @@ package com.nokia.unittests;
 
 import static org.junit.Assert.fail;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -10,10 +11,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SeleniumBase {
 
-	private WebDriver driver;
+	private static final String LOGOUT_BUTTON_LOCATOR = "(//button[@type='submit'])[2]";
+	protected WebDriver driver;
 	private String baseUrl;
 	private StringBuffer verificationErrors = new StringBuffer();
 
@@ -33,27 +37,27 @@ public class SeleniumBase {
 		driver.findElement(By.linkText("Zaloguj się")).click();
 	}
 
-	private void open(String path) {
+	public void open(String path) {
 		driver.get(baseUrl + path);
 	}
 
 	protected void logOut() throws InterruptedException {
 		driver.findElement(By.cssSelector("img.gravatar")).click();
-	
+
 		for (int second = 0;; second++) {
 			if (second >= 60)
 				fail("timeout");
 			try {
-				if (isElementPresent(By.xpath("(//button[@type='submit'])[2]")))
+				if (isElementPresent(By.xpath(LOGOUT_BUTTON_LOCATOR)))
 					break;
 			} catch (Exception e) {
 			}
 			Thread.sleep(1000);
 		}
-		click(By.xpath("(//button[@type='submit'])[2]"));
+		click(By.xpath(LOGOUT_BUTTON_LOCATOR));
 	}
 
-	private void click(By identifier) {
+	public void click(By identifier) {
 		driver.findElement(identifier).click();
 	}
 
@@ -63,9 +67,18 @@ public class SeleniumBase {
 		click(By.id("wp-submit"));
 	}
 
-	private void insertText(By identifier, String text) {
+	public void insertText(By identifier, String text) {
 		driver.findElement(identifier).clear();
 		driver.findElement(identifier).sendKeys(text);
+	}
+
+	public String randomName() {
+		return UUID.randomUUID().toString();
+	}
+
+	public void waitForElement(By identifier) {
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(identifier));
 	}
 
 	@After

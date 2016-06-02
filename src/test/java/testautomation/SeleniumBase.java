@@ -6,18 +6,15 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class SeleniumBase {
+public abstract class SeleniumBase {
 
 	private WebDriver driver;
 	private String baseUrl;
-	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	public SeleniumBase() {
@@ -32,12 +29,20 @@ public class SeleniumBase {
 	}
 
 	protected void openLogIn() {
-		driver.get(baseUrl + "/");
-		driver.findElement(By.linkText("Zaloguj się")).click();
+		open(baseUrl + "/");
+		click(By.linkText("Zaloguj się"));
+	}
+
+	private void click(By by) {
+		driver.findElement(by).click();
+	}
+
+	private void open(String path) {
+		driver.get(path);
 	}
 
 	protected void logOut() throws InterruptedException {
-		driver.findElement(By.cssSelector("img.gravatar")).click();
+		click(By.cssSelector("img.gravatar"));
 		for (int second = 0;; second++) {
 			if (second >= 60)
 				fail("timeout");
@@ -48,15 +53,18 @@ public class SeleniumBase {
 			}
 			Thread.sleep(1000);
 		}
-		driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
+		click(By.xpath("(//button[@type='submit'])[2]"));
 	}
 
 	protected void logIn(String user, String pass) {
-		driver.findElement(By.id("user_login")).clear();
-		driver.findElement(By.id("user_login")).sendKeys(user);
-		driver.findElement(By.id("user_pass")).clear();
-		driver.findElement(By.id("user_pass")).sendKeys(pass);
-		driver.findElement(By.id("wp-submit")).click();
+		insertText(user, "user_login");
+		insertText(pass, "user_pass");
+		click(By.id("wp-submit"));
+	}
+
+	private void insertText(String user, String identifier) {
+		driver.findElement(By.id(identifier)).clear();
+		driver.findElement(By.id(identifier)).sendKeys(user);
 	}
 
 	@After
@@ -76,29 +84,4 @@ public class SeleniumBase {
 			return false;
 		}
 	}
-
-	private boolean isAlertPresent() {
-		try {
-			driver.switchTo().alert();
-			return true;
-		} catch (NoAlertPresentException e) {
-			return false;
-		}
-	}
-
-	private String closeAlertAndGetItsText() {
-		try {
-			Alert alert = driver.switchTo().alert();
-			String alertText = alert.getText();
-			if (acceptNextAlert) {
-				alert.accept();
-			} else {
-				alert.dismiss();
-			}
-			return alertText;
-		} finally {
-			acceptNextAlert = true;
-		}
-	}
-
 }

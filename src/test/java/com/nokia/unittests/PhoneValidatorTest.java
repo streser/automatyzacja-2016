@@ -34,4 +34,6 @@ public class PhoneValidatorTest {
 	public void shouldPass(String str, boolean valid) throws Exception {
 		Assert.assertEquals(valid, new PhoneValidator().validatePhoneNumber(str));
 	}
+	
+	// data driven tests
 }

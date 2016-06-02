@@ -1,17 +1,21 @@
 package testautomation;
 
 import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Assert;
+import org.junit.Test;
 import org.openqa.selenium.By;
 
 @SuppressWarnings("unused")
 public class selenium1 extends seleniumSuperClass {
-/*	@SuppressWarnings("unused")
-	private void assertThatLogInWasSuccessful() {
-		Assert.assertTrue(isElementPresent(By.xpath("//header[@id = 'header']/a2/span")));
-*/
+	@Test
+	public void shouldLogIn() throws Exception {
+		driver.get(baseUrl + "/");
+		logIn("szkolenieautomatyzacja", "qw12qw12");
+		logOut();
+	}
 
 	@After
 	public void tearDown() throws Exception {

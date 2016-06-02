@@ -32,11 +32,14 @@ public class SeleniumBase {
 	}
 
 	protected void LoginForWebTest(String userID, String userPassword) {
-		driver.findElement(By.id("user_login")).clear();
-		driver.findElement(By.id("user_login")).sendKeys(userID);
-		driver.findElement(By.id("user_pass")).clear();
-		driver.findElement(By.id("user_pass")).sendKeys(userPassword);
+		MyInstertText(userID, "user_login");
+		MyInstertText(userPassword, "user_pass");
 		MyClick("wp-submit");
+	}
+
+	private void MyInstertText(String InputText, String FieldID) {
+		driver.findElement(By.id(FieldID)).clear();
+		driver.findElement(By.id(FieldID)).sendKeys(InputText);
 	}
 
 	private void MyClick(String IdentyfyID) {

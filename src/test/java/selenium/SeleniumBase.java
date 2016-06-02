@@ -40,11 +40,14 @@ public class SeleniumBase {
 
 	protected void BlogWebTest(String BlogTitle, String BlogText) throws Exception {
 
-		BlogTitle = "edmundb"+ randomName();
+		BlogTitle = BlogTitle + " ID: "+ randomName();
+		BlogText = BlogText + " ID: "+ randomName();
 		waitForElement(By.xpath("//div[2]/div/header/a[3]"));
 		driver.findElement(By.xpath("//div[2]/div/header/a[3]")).click();
 		InstertTextByXpath(BlogTitle, "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
+		InstertTextByXpath(BlogText, "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea");
 		driver.findElement(By.xpath("//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]")).click();
+		
 	}
 
 	public String randomName() {
@@ -79,8 +82,9 @@ public class SeleniumBase {
 	}
 
 	private void InstertTextByXpath(String InputText, String FieldID) {
-		driver.findElement(By.xpath(FieldID)).clear();
+		driver.findElement(By.xpath(FieldID)).click();
 		driver.findElement(By.xpath(FieldID)).sendKeys(InputText);
+		driver.findElement(By.xpath(FieldID)).click();		
 	}
 
 	private void MyClick(String IdentyfyID) {

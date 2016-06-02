@@ -21,25 +21,34 @@ public class WebTest {
   @Test
   public void testWeb() throws Exception {
     driver.get(baseUrl + "/");
-    driver.findElement(By.linkText("Zaloguj się")).click();
-    driver.findElement(By.id("user_login")).clear();
-    driver.findElement(By.id("user_login")).sendKeys("szkolenieautomatyzacja");
-    driver.findElement(By.id("user_pass")).clear();
-    driver.findElement(By.id("user_pass")).sendKeys("qw12qw12");
+    logIn("Zaloguj się","user_login","szkolenieautomatyzacja","user_pass","qw12qw12");
     driver.findElement(By.id("rememberme")).click();
     driver.findElement(By.id("wp-submit")).click();
     driver.findElement(By.cssSelector("img.gravatar")).click();
-    for (int second = 0;; second++) {
-    	if (second >= 60) fail("timeout");
-    	try { if (isElementPresent(By.id("description"))) break; } catch (Exception e) {}
-    	Thread.sleep(1000);
-    }
-
-    driver.findElement(By.id("description")).clear();
-    driver.findElement(By.id("description")).sendKeys("1");
+    waitForElement("description");
+    inputText("description", "1");
     driver.findElement(By.xpath("//button[@type='submit']")).click();
     driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
   }
+
+private void inputText(String elementId, String elementValue) {
+	driver.findElement(By.id(elementId)).clear();
+    driver.findElement(By.id(elementId)).sendKeys(elementValue);
+}
+
+private void logIn(String linkText, String userElementId, String user, String passwordElementId, String password) {
+    driver.findElement(By.linkText(linkText)).click();
+	inputText(userElementId, user);
+    inputText(passwordElementId, password);
+}
+
+private void waitForElement(String elementId) throws InterruptedException {
+	for (int second = 0;; second++) {
+    	if (second >= 60) fail("timeout");
+    	try { if (isElementPresent(By.id(elementId))) break; } catch (Exception e) {}
+    	Thread.sleep(1000);
+    }
+}
 
   @After
   public void tearDown() throws Exception {

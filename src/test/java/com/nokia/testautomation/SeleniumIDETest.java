@@ -25,13 +25,12 @@ public class SeleniumIDETest {
   @Test
   public void testSelen() throws Exception {
     driver.get(baseUrl + "/");
-    driver.findElement(By.linkText("Zaloguj się")).click();
+    driver.findElement(By.className("click-wpcom-login")).click();
     driver.findElement(By.id("user_login")).clear();
     driver.findElement(By.id("user_login")).sendKeys("szkolenieautomatyzacja");
     driver.findElement(By.id("user_pass")).clear();
     driver.findElement(By.id("user_pass")).sendKeys("qw12qw12");
     driver.findElement(By.id("wp-submit")).click();
-    // ERROR: Caught exception [Error: unknown strategy [class] for locator [class=empty-content__title]]
     driver.findElement(By.cssSelector("img.gravatar")).click();
     for (int second = 0;; second++) {
     	if (second >= 60) fail("timeout");

@@ -18,7 +18,7 @@ public class PhoneValidatorTest {
 	}
 
 	@Test
-	public void checkThatNumberIsOK() {
+	public void checkThatNumber1234567890IsOK() {
 		Assert.assertTrue(phoneValidator.validatePhoneNumber("1234567890"));
 	}
 

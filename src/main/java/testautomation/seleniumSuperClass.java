@@ -2,6 +2,7 @@ package testautomation;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.NoSuchElementException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
@@ -31,23 +32,40 @@ public class seleniumSuperClass {
 	public void shouldLogIn() throws Exception {
 		driver.get(baseUrl + "/");
 		logIn("szkolenieautomatyzacja", "qw12qw12");
+		logOut();
+	}
+
+	private void insertText(By element, String text) {
+		driver.findElement(element).clear();
+		driver.findElement(element).sendKeys(text);
 	}
 
 	private void logIn(String login, String password) {
-		driver.findElement(By.linkText("Zaloguj się")).click();
-		driver.findElement(By.id("user_login")).clear();
-		driver.findElement(By.id("user_login")).sendKeys(login);
-		driver.findElement(By.id("user_pass")).clear();
-		driver.findElement(By.id("user_pass")).sendKeys(password);
+		// driver.findElement(By.linkText("Zaloguj się")).click();
+		driver.findElement(By.className("click-wpcom-login")).click();
+
+		insertText(By.id("user_login"), login);
+		insertText(By.id("user_pass"), password);
+
 		driver.findElement(By.id("wp-submit")).click();
 		// ERROR: Caught exception [ERROR: Unsupported command [selectWindow |
 		// name=oktab04184930043155366 | ]]
 		assertEquals("Obserwowanie ‹ Reader — WordPress.com", driver.getTitle());
 	}
+	
+	private void logOut(){
+	    driver.findElement(By.cssSelector("img.gravatar")).click();
+	    // ERROR: Caught exception [ERROR: Unsupported command [selectWindow | name=oktab8235637659710296 | ]]
+	    driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();	
+	}
 
 	protected boolean isElementPresent(By xpath) {
-		// TODO 
-		return true;
+		try {
+			driver.findElement(xpath);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
 	}
 
 }

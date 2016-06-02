@@ -2,6 +2,7 @@ package testautomation;
 
 import static org.junit.Assert.fail;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -33,27 +34,44 @@ public abstract class SeleniumBase {
 		click(By.linkText("Zaloguj się"));
 	}
 
-	private void click(By by) {
+	protected void click(By by) {
 		driver.findElement(by).click();
 	}
 
-	private void open(String path) {
+	protected void open(String path) {
 		driver.get(path);
 	}
 
 	protected void logOut() throws InterruptedException {
 		click(By.cssSelector("img.gravatar"));
+		waitForElement("(//button[@type='submit'])[2]");
+		click(By.xpath("(//button[@type='submit'])[2]"));
+	}
+
+	protected void waitForElement(String path) throws InterruptedException {
 		for (int second = 0;; second++) {
 			if (second >= 60)
 				fail("timeout");
 			try {
-				if (isElementPresent(By.xpath("(//button[@type='submit'])[2]")))
+				if (isElementPresent(By.xpath(path)))
 					break;
 			} catch (Exception e) {
 			}
 			Thread.sleep(1000);
 		}
-		click(By.xpath("(//button[@type='submit'])[2]"));
+	}
+	
+	protected void waitForElementByLinkText(String path) throws InterruptedException {
+		for (int second = 0;; second++) {
+			if (second >= 60)
+				fail("timeout");
+			try {
+				if (isElementPresent(By.linkText(path)))
+					break;
+			} catch (Exception e) {
+			}
+			Thread.sleep(1000);
+		}
 	}
 
 	protected void logIn(String user, String pass) {
@@ -61,10 +79,19 @@ public abstract class SeleniumBase {
 		insertText(pass, "user_pass");
 		click(By.id("wp-submit"));
 	}
+	
+	public String randomName() {
+		return UUID.randomUUID().toString();
+	}
 
 	private void insertText(String user, String identifier) {
 		driver.findElement(By.id(identifier)).clear();
 		driver.findElement(By.id(identifier)).sendKeys(user);
+	}
+	
+	public void insertTextByXPath(String text, String identifier) {
+		driver.findElement(By.xpath(identifier)).clear();
+		driver.findElement(By.xpath(identifier)).sendKeys(text);
 	}
 
 	@After

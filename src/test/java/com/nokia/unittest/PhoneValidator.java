@@ -12,7 +12,7 @@ public class PhoneValidator {
     Phone number 123.456.7890 validation result: true
     Phone number 123 456 7890 validation result: true
      */
-    private boolean validatePhoneNumber(String phoneNo) {
+    public boolean validatePhoneNumber(String phoneNo) {
         //validate phone numbers of format "1234567890"
         if (phoneNo.matches("\\d{10}")) return true;
             //validating phone number with -, . or spaces

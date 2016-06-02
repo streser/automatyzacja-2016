@@ -1,15 +1,11 @@
 package com.nokia.integrationtests;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import java.util.concurrent.TimeUnit;
+import org.junit.*;
+import static org.junit.Assert.*;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class LogInTest {
 
@@ -21,29 +17,47 @@ public class LogInTest {
     @Before
     public void setUp() throws Exception {
         driver = new FirefoxDriver();
-        baseUrl = "https://wordpress.com";
+        baseUrl = "https://pl.wordpress.com";
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     @Test
     public void testAutomatyzacja() throws Exception {
+        openLogInForm();
+
+        logIn("szkolenieautomatyzacja", "qw12qw12");
+
+        assertThatLogInWasSuccesful();
+        logOut();
+    }
+
+    private void openLogInForm() {
         driver.get(baseUrl + "/");
-        driver.findElement(By.linkText("Sign In")).click();
-        driver.findElement(By.id("user_login")).clear();
-        driver.findElement(By.id("user_login")).sendKeys("szkolenieautomatyzacja");
-        driver.findElement(By.id("user_pass")).clear();
-        driver.findElement(By.id("user_pass")).sendKeys("qw12qw12");
-        driver.findElement(By.id("rememberme")).click();
-        driver.findElement(By.id("wp-submit")).click();
+        driver.findElement(By.linkText("Zaloguj się")).click();
+    }
+
+    private void assertThatLogInWasSuccesful() {
         assertTrue(isElementPresent(By.xpath("//header[@id='header']/a[2]/span")));
+    }
+
+    private void logOut() throws InterruptedException {
         driver.findElement(By.cssSelector("img.gravatar")).click();
+
         for (int second = 0;; second++) {
             if (second >= 60) fail("timeout");
             try { if (isElementPresent(By.xpath("(//button[@type='submit'])[2]"))) break; } catch (Exception e) {}
             Thread.sleep(1000);
         }
-
         driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
+    }
+
+    private void logIn(String login, String password) {
+        driver.findElement(By.id("user_login")).clear();
+        driver.findElement(By.id("user_login")).sendKeys(login);
+        driver.findElement(By.id("user_pass")).clear();
+        driver.findElement(By.id("user_pass")).sendKeys(password);
+        driver.findElement(By.id("rememberme")).click();
+        driver.findElement(By.id("wp-submit")).click();
     }
 
     @After

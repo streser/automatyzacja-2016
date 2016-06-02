@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
-public class SeleniumBase {
+public abstract class SeleniumBase {
 
     private WebDriver driver;
     private String baseUrl;
@@ -23,31 +23,6 @@ public class SeleniumBase {
         driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    protected void openLogInForm() {
-        driver.get(baseUrl + "/");
-        driver.findElement(By.linkText("Zaloguj się")).click();
-    }
-
-    protected void logOut() throws InterruptedException {
-        driver.findElement(By.cssSelector("img.gravatar")).click();
-
-        for (int second = 0;; second++) {
-            if (second >= 60) fail("timeout");
-            try { if (isElementPresent(By.xpath("(//button[@type='submit'])[2]"))) break; } catch (Exception e) {}
-            Thread.sleep(1000);
-        }
-        driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
-    }
-
-    protected void logIn(String login, String password) {
-        driver.findElement(By.id("user_login")).clear();
-        driver.findElement(By.id("user_login")).sendKeys(login);
-        driver.findElement(By.id("user_pass")).clear();
-        driver.findElement(By.id("user_pass")).sendKeys(password);
-        driver.findElement(By.id("rememberme")).click();
-        driver.findElement(By.id("wp-submit")).click();
-    }
-
     @After
     public void tearDown() throws Exception {
         driver.quit();
@@ -55,6 +30,43 @@ public class SeleniumBase {
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
         }
+    }
+
+    protected void openLogInForm() {
+        open("/");
+        click(By.linkText("Zaloguj się"));
+    }
+
+    protected void logIn(String login, String password) {
+        insertText(By.id("user_login"), login);
+        insertText(By.id("user_pass"), password);
+
+        click(By.id("rememberme"));
+        click(By.id("wp-submit"));
+    }
+
+    protected void logOut() throws InterruptedException {
+        click(By.cssSelector("img.gravatar"));
+
+        for (int second = 0;; second++) {
+            if (second >= 60) fail("timeout");
+            try { if (isElementPresent(By.xpath("(//button[@type='submit'])[2]"))) break; } catch (Exception e) {}
+            Thread.sleep(1000);
+        }
+        click(By.xpath("(//button[@type='submit'])[2]"));
+    }
+
+    private void open(String path) {
+        driver.get(baseUrl + path);
+    }
+
+    private void click(By identifier) {
+        driver.findElement(identifier).click();
+    }
+
+    private void insertText(By identifier, String text) {
+        driver.findElement(identifier).clear();
+        driver.findElement(identifier).sendKeys(text);
     }
 
     protected boolean isElementPresent(By by) {
@@ -66,27 +78,4 @@ public class SeleniumBase {
         }
     }
 
-    private boolean isAlertPresent() {
-        try {
-            driver.switchTo().alert();
-            return true;
-        } catch (NoAlertPresentException e) {
-            return false;
-        }
-    }
-
-    private String closeAlertAndGetItsText() {
-        try {
-            Alert alert = driver.switchTo().alert();
-            String alertText = alert.getText();
-            if (acceptNextAlert) {
-                alert.accept();
-            } else {
-                alert.dismiss();
-            }
-            return alertText;
-        } finally {
-            acceptNextAlert = true;
-        }
-    }
 }

@@ -64,7 +64,7 @@ public abstract class SeleniumBase {
 
 	protected void logIn(String login, String password) throws InterruptedException {
 		insertText(By.id("user_login"), login);
-		insertText(By.id("user_pass"), login);
+		insertText(By.id("user_pass"), password);
 		click(By.id("wp-submit"));
 		for (int second = 0;; second++) {
 			if (second >= 60)

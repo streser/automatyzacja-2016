@@ -11,8 +11,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class SeleniumBase {
+public abstract class  SeleniumBase {
 
+	private static final By LOGOUT_BUTTON_LOCATOR = By.xpath("(//button[@type='submit'])[2]");
 	protected WebDriver driver;
 	protected String baseUrl;
 	private boolean acceptNextAlert = true;
@@ -37,23 +38,34 @@ public class SeleniumBase {
 			if (second >= 60)
 				fail("timeout");
 			try {
-				if (isElementPresent(By.xpath("(//button[@type='submit'])[2]")))
+				if (isElementPresent(LOGOUT_BUTTON_LOCATOR))
 					break;
 			} catch (Exception e) {
 			}
 			Thread.sleep(1000);
 		}
-		driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
+		driver.findElement(LOGOUT_BUTTON_LOCATOR).click();
 	}
 
 	protected void logIn(String login, String password) {
-		driver.get(baseUrl + "/");
-		driver.findElement(By.linkText("Zaloguj się")).click();
-		driver.findElement(By.id("user_login")).clear();
-		driver.findElement(By.id("user_login")).sendKeys(login);
-		driver.findElement(By.id("user_pass")).clear();
-		driver.findElement(By.id("user_pass")).sendKeys(password);
-		driver.findElement(By.id("wp-submit")).click();
+		open("/");
+		click(By.linkText("Zaloguj się"));
+		insertText(login, By.id("user_login"));
+		insertText(password,By.id("user_pass"));
+		click(By.id("wp-submit"));
+	}
+
+	private void insertText(String text, By identifier) {
+		driver.findElement(identifier).clear();
+		driver.findElement(identifier).sendKeys(text);
+	}
+
+	private void click(By identifier) {
+		driver.findElement(identifier).click();
+	}
+
+	private void open(String path) {
+		driver.get(baseUrl + path);
 	}
 
 	@After

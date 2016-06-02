@@ -22,14 +22,6 @@ public class PhoneValidatorTest {
 		"123.456.7890"
 		})
 	public void shouldValidatePhoneNumber(String number) {
-		
-//		Phone number 1234567890 validation result: true
-//	    Phone number 123-456-7890 validation result: true
-//	    Phone number 123-456-7890 x1234 validation result: true
-//	    Phone number 123-456-7890 ext1234 validation result: true
-//	    Phone number (123)-456-7890 validation result: true
-//	    Phone number 123.456.7890 validation result: true
-//	    Phone number 123 456 7890 validation result: true
 		Assert.assertEquals(true, pv.validatePhoneNumber(number));
 	}
 	

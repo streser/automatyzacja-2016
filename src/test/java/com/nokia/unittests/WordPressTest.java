@@ -1,49 +1,82 @@
 package com.nokia.unittests;
 
-import java.util.regex.Pattern;
+
 import java.util.concurrent.TimeUnit;
+
 import org.junit.*;
+
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
+
 
 public class WordPressTest {
   private WebDriver driver;
-  private String baseUrl;
-  private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
 
   @Before
   public void setUp() throws Exception {
     driver = new FirefoxDriver();
-    baseUrl = "https://pl.wordpress.com/";
     driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
   public void testAutomation() throws Exception {
     driver.get("https://pl.wordpress.com");
-    for (int second = 0;; second++) {
-    	if (second >= 60) fail("timeout");
-    	try { if (isElementPresent(By.linkText("Zaloguj się"))) break; } catch (Exception e) {}
-    	Thread.sleep(1000);
-    }
+    WebElement loginElement =  waitForElementByLinkText("Zaloguj się");
+    loginElement.click();
 
-    driver.findElement(By.linkText("Zaloguj się")).click();
-    driver.findElement(By.id("user_login")).clear();
-    driver.findElement(By.id("user_login")).sendKeys("szkolenieautomatyzacja");
-    driver.findElement(By.id("user_pass")).clear();
-    driver.findElement(By.id("user_pass")).sendKeys("qw12qw12");
-    for (int second = 0;; second++) {
-    	if (second >= 60) fail("timeout");
-    	try { if (isElementPresent(By.id("wp-submit"))) break; } catch (Exception e) {}
-    	Thread.sleep(1000);
-    }
-
-    driver.findElement(By.id("wp-submit")).click();
+    WebElement userLogin =getWebElementById("user_login");
+    
+    insertText(userLogin,"szkolenieautomatyzacja");
+     
+    WebElement userPass = getWebElementById("user_pass");
+    insertText(userPass,"qw12qw12");
+    
+    WebElement submitElement = waitForElementById("wp-submit");
+    submitElement.click();
   }
+
+  
+  private void insertText(WebElement element, String text)
+  {
+	  element.clear();
+	  element.sendKeys(text);  
+  }
+  
+  private WebElement getWebElementByLinkText(String linkText)
+  {
+	  return driver.findElement(By.linkText(linkText));
+  }
+  
+  private WebElement getWebElementById(String id)
+  {
+	  return driver.findElement(By.id(id));
+  }
+	private WebElement waitForElementByLinkText(String linkText) throws InterruptedException {
+		for (int second = 0;; second++) {
+	    	if (second >= 60) fail("timeout");
+	    	try 
+	    	{ 
+	    		WebElement element = isElementPresent(By.linkText(linkText));
+	    		if (element != null) return element; 
+	    	} catch (Exception e) {}
+	    	Thread.sleep(1000);
+	    }
+	}
+	
+	private WebElement waitForElementById(String id) throws InterruptedException {
+		for (int second = 0;; second++) {
+	    	if (second >= 60) fail("timeout");
+	    	try 
+	    	{ 
+	    		WebElement element = isElementPresent(By.id(id));
+	    		if (element != null) return element; 
+	    	} catch (Exception e) {}
+	    	Thread.sleep(1000);
+	    }
+	}
 
   @After
   public void tearDown() throws Exception {
@@ -54,36 +87,14 @@ public class WordPressTest {
     }
   }
 
-  private boolean isElementPresent(By by) {
+  private WebElement isElementPresent(By by) {
     try {
-      driver.findElement(by);
-      return true;
+      WebElement element = driver.findElement(by);
+      return element;
     } catch (NoSuchElementException e) {
-      return false;
+      return null;
     }
   }
 
-  private boolean isAlertPresent() {
-    try {
-      driver.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
-
-  private String closeAlertAndGetItsText() {
-    try {
-      Alert alert = driver.switchTo().alert();
-      String alertText = alert.getText();
-      if (acceptNextAlert) {
-        alert.accept();
-      } else {
-        alert.dismiss();
-      }
-      return alertText;
-    } finally {
-      acceptNextAlert = true;
-    }
-  }
+  
 }

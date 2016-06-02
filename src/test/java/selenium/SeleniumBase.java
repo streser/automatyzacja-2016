@@ -1,5 +1,6 @@
 package selenium;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
@@ -32,14 +33,54 @@ public class SeleniumBase {
 	}
 
 	protected void LoginForWebTest(String userID, String userPassword) {
-		MyInstertText(userID, "user_login");
-		MyInstertText(userPassword, "user_pass");
+		InstertTextByID(userID, "user_login");
+		InstertTextByID(userPassword, "user_pass");
 		MyClick("wp-submit");
 	}
 
-	private void MyInstertText(String InputText, String FieldID) {
+	protected void BlogWebTest(String BlogTitle, String BlogText) throws Exception {
+
+		BlogTitle = "edmundb"+ randomName();
+		waitForElement(By.xpath("//div[2]/div/header/a[3]"));
+		driver.findElement(By.xpath("//div[2]/div/header/a[3]")).click();
+		InstertTextByXpath(BlogTitle, "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
+		driver.findElement(By.xpath("//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]")).click();
+	}
+
+	public String randomName() {
+		return UUID.randomUUID().toString();
+	}
+	
+	public void waitForElement(By locator) throws InterruptedException {
+		for (int second = 0;; second++) {
+			if (second >= 60)
+				fail("timeout");
+			try {
+				if (isElementPresent(locator))
+					break;
+			} catch (Exception e) {
+			}
+			Thread.sleep(1000);
+		}
+	}
+
+	private boolean isElementPresent(By by) {
+		try {
+			driver.findElement(by);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+
+	private void InstertTextByID(String InputText, String FieldID) {
 		driver.findElement(By.id(FieldID)).clear();
 		driver.findElement(By.id(FieldID)).sendKeys(InputText);
+	}
+
+	private void InstertTextByXpath(String InputText, String FieldID) {
+		driver.findElement(By.xpath(FieldID)).clear();
+		driver.findElement(By.xpath(FieldID)).sendKeys(InputText);
 	}
 
 	private void MyClick(String IdentyfyID) {

@@ -1,99 +1,81 @@
 package com.nokia.unittest;
 
-import java.util.regex.Pattern;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import java.util.concurrent.TimeUnit;
-import org.junit.*;
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-import org.openqa.selenium.*;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.support.ui.Select;
 
 public class WordpressLoginTest {
-  private WebDriver driver;
-  private String baseUrl;
-  private boolean acceptNextAlert = true;
-  private StringBuffer verificationErrors = new StringBuffer();
 
-  @Before
-  public void setUp() throws Exception {
-    driver = new FirefoxDriver();
-    baseUrl = "https://pl.wordpress.com";
-    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-  }
+    private WebDriver driver;
+    private String baseUrl;
+    private StringBuffer verificationErrors = new StringBuffer();
 
-  @Test
-  public void testAutomat() throws Exception {
-    driver.get(baseUrl + "/");
-    driver.findElement(By.linkText("Zaloguj siê")).click();
-    driver.findElement(By.id("user_login")).clear();
-    driver.findElement(By.id("user_login")).sendKeys("szkolenieautomatyzacja");
-    driver.findElement(By.id("user_pass")).clear();
-    driver.findElement(By.id("user_pass")).sendKeys("qw12qw12");
-    driver.findElement(By.id("wp-submit")).click();
-    for (int second = 0;; second++) {
-    	if (second >= 60) fail("timeout");
-    	try { if (isElementPresent(By.cssSelector("svg.gridicon.gridicons-user-circle"))) break; } catch (Exception e) {}
-    	Thread.sleep(1000);
+    @Before
+    public void setUp() throws Exception {
+	driver = new FirefoxDriver();
+	baseUrl = "https://wordpress.com";
+	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
-    assertTrue(isElementPresent(By.cssSelector("svg.gridicon.gridicons-user-circle")));
-    driver.findElement(By.cssSelector("svg.gridicon.gridicons-user-circle  > g > path")).click();
-    for (int second = 0;; second++) {
-    	if (second >= 60) fail("timeout");
-    	try { if (isElementPresent(By.xpath("(//button[@type='submit'])[2]"))) break; } catch (Exception e) {}
-    	Thread.sleep(1000);
+    @Test
+    public void testLoginWordPress() throws Exception {
+	driver.get(baseUrl + "/");
+	driver.findElement(By.className("click-wpcom-login")).click();
+	insertTextInto("user_login", "szkolenieautomatyzacja");
+	insertTextInto("user_pass", "qw12qw12");
+	driver.findElement(By.id("wp-submit")).click();
+	waitForElement(By.cssSelector("svg.gridicon.gridicons-user-circle"));
+
+	assertTrue(isElementPresent(By.cssSelector("svg.gridicon.gridicons-user-circle")));
+	driver.findElement(By.cssSelector("svg.gridicon.gridicons-user-circle  > g > path")).click();
+	waitForElement(By.xpath("(//button[@type='submit'])[2]"));
+	driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
+	waitForElement(By.className("click-wpcom-login"));
     }
 
-    driver.findElement(By.xpath("(//button[@type='submit'])[2]")).click();
-    for (int second = 0;; second++) {
-    	if (second >= 60) fail("timeout");
-    	try { if (isElementPresent(By.linkText("Zaloguj siê"))) break; } catch (Exception e) {}
-    	Thread.sleep(1000);
+    private void waitForElement(By selector) throws InterruptedException {
+	for (int second = 0;; second++) {
+	    if (second >= 60)
+		fail("timeout");
+	    try {
+		if (isElementPresent(selector))
+		    break;
+	    } catch (Exception e) {
+	    }
+	    Thread.sleep(1000);
+	}
     }
 
-    assertTrue(isElementPresent(By.linkText("Zaloguj siê")));
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    driver.quit();
-    String verificationErrorString = verificationErrors.toString();
-    if (!"".equals(verificationErrorString)) {
-      fail(verificationErrorString);
+    private void insertTextInto(String fieldName, String text) {
+	driver.findElement(By.id(fieldName)).clear();
+	driver.findElement(By.id(fieldName)).sendKeys(text);
     }
-  }
 
-  private boolean isElementPresent(By by) {
-    try {
-      driver.findElement(by);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
+    @After
+    public void tearDown() throws Exception {
+	driver.quit();
+	String verificationErrorString = verificationErrors.toString();
+	if (!"".equals(verificationErrorString)) {
+	    fail(verificationErrorString);
+	}
     }
-  }
 
-  private boolean isAlertPresent() {
-    try {
-      driver.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
+    private boolean isElementPresent(By by) {
+	try {
+	    driver.findElement(by);
+	    return true;
+	} catch (NoSuchElementException e) {
+	    return false;
+	}
     }
-  }
 
-  private String closeAlertAndGetItsText() {
-    try {
-      Alert alert = driver.switchTo().alert();
-      String alertText = alert.getText();
-      if (acceptNextAlert) {
-        alert.accept();
-      } else {
-        alert.dismiss();
-      }
-      return alertText;
-    } finally {
-      acceptNextAlert = true;
-    }
-  }
 }

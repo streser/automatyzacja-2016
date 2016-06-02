@@ -51,6 +51,10 @@ public class SeleniumBase {
         click(By.className("click-wpcom-login"));
     }
 
+    public void openBlog() {
+        driver.get("automatyzacjacs.wordpress.com/");
+    }
+
     protected void waitForElement(By selector) throws InterruptedException {
         for (int second = 0;; second++) {
             if (second >= 60)

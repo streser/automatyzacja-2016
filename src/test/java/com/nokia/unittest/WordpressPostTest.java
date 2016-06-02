@@ -21,6 +21,9 @@ public class WordpressPostTest extends SeleniumBase {
 	
 	// go to automatyzacjacs.wordpress.com
 	// 
+	openBlog();
+	waitForElement(By.id("masthead"));
+	assertTrue(isElementPresent(By.linkText(postId)));
 	
     }
 

@@ -58,6 +58,7 @@ public abstract class SeleniumBase {
 	}
 
 	protected void logIn(String login, String password) throws InterruptedException {
+		openLoginForm();
 		insertText(By.id("user_login"), login);
 		insertText(By.id("user_pass"), password);
 		click(By.id("wp-submit"));

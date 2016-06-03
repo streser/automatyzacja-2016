@@ -11,28 +11,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class PostTest extends SeleniumBase {
 
-	private String uniqueNumber;
+	private String postTitle;
 
 	@Test
 	public void shouldNewPostAdded() throws InterruptedException {
-		//given
-		openLoginForm();
+		// GIVEN
 		logIn("szkolenieautomatyzacja", "qw12qw12");
-		//when
-		uniqueNumber = "adamp-" + randomName();
-		createNewPost(uniqueNumber);
-		//then
+		// WHEN
+		postTitle = "adamp-" + randomName();
+		createNewPost(postTitle);
+		// THEN
 		checkPostName();
-	}
-
-	private void checkPostName() {
-		driver.get("https://automatyzacjacs.wordpress.com/");
-		WebDriverWait wait = new WebDriverWait(driver, 10);
-		wait.until(new Predicate<WebDriver>() {
-			public boolean apply(WebDriver input) {
-				return assertThatPostWasAdded(driver) != null;
-			}
-		});
 	}
 
 	private void createNewPost(String uniqueNumber) {
@@ -44,6 +33,16 @@ public class PostTest extends SeleniumBase {
 		waitForElement(By.linkText("automatyzacjacs"));
 
 	}
+	
+	private void checkPostName() {
+		driver.get("https://automatyzacjacs.wordpress.com/");
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+		wait.until(new Predicate<WebDriver>() {
+			public boolean apply(WebDriver input) {
+				return assertThatPostWasAdded(driver) != null;
+			}
+		});
+	}
 
 	private WebElement assertThatPostWasAdded(WebDriver driver) {
 		List<WebElement> elemnts = driver.findElements(By.tagName("a"));
@@ -52,7 +51,7 @@ public class PostTest extends SeleniumBase {
 			 * System.out.println("Old way of debugging");
 			 * System.out.println(element.getAttribute("href"));
 			 */
-			if (element.getAttribute("href").contains(uniqueNumber)) {
+			if (element.getAttribute("href").contains(postTitle)) {
 				return element;
 			}
 		}

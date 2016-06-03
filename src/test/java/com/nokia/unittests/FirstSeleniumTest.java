@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 public class FirstSeleniumTest extends SeleniumBase {
 	@Test
 	public void checkElementName() throws Exception {
-		openLoginForm();
 		logIn("szkolenieautomatyzacja", "qw12qw12");
 		assertThatLoginWasSuccessful();
 		logOut();

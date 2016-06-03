@@ -12,18 +12,15 @@ public class seleniumPublishPost extends seleniumSuperClass {
 	@Test
 	public void shouldPublishPost() throws Exception {
 		final String INPUT_TEXT = "justtesting";
-		driver.get(baseUrl + "/");
+		openWebPage(baseUrl);
+		//driver.get(baseUrl + "/");
 		logIn("szkolenieautomatyzacja", "qw12qw12");
 		click(By.className("masterbar__item-new"));
 		insertText(By.className("form-text-input"), INPUT_TEXT);
 		click(By.className("editor-ground-control__publish-button"));
 		waitForElement(By.className("notice__action"));
-//		click(By.className("notice__action"));
-		// waitForElement(By.className("entry-title"));
-		// String
-		// publishedText=driver.findElement(By.className("entry-title")).getText();
-		
-		driver.get("https://automatyzacjacs.wordpress.com");
+		openWebPage("https://automatyzacjacs.wordpress.com");
+		//driver.get("https://automatyzacjacs.wordpress.com");
 		
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(new Predicate<WebDriver>() {

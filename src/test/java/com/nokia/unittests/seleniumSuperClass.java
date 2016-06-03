@@ -28,6 +28,10 @@ public class seleniumSuperClass {
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}
 
+	protected void openWebPage(String url) {
+		driver.get(url + "/");
+	}
+
 	public void insertText(By element, String text) {
 		driver.findElement(element).clear();
 		driver.findElement(element).sendKeys(text);

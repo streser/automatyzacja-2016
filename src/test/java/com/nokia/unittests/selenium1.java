@@ -12,7 +12,7 @@ import org.openqa.selenium.By;
 public class selenium1 extends seleniumSuperClass {
 	@Test
 	public void shouldLogIn() throws Exception {
-		driver.get(baseUrl + "/");
+		openWebPage(baseUrl);
 		logIn("szkolenieautomatyzacja", "qw12qw12");
 		logOut();
 	}

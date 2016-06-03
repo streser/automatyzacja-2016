@@ -18,7 +18,7 @@ public class TestScenario {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		driver.quit();
 	}
 

@@ -16,7 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class SeleniumBase {
 
 	protected static final By PROFILE_BUTTON = By.xpath("//a[@class=\"masterbar__item masterbar__item-me\"]");
-	protected static final By LOGOUT_BUTTON = By.xpath("//button[@class=\"masterbar__item masterbar__item-me\"]");
+//	protected static final By LOGOUT_BUTTON = By.xpath("//button[@class=\"masterbar__item masterbar__item-me\"]");
+	protected static final By LOGOUT_BUTTON = By.xpath("/html/body/div[2]/div/div[2]/div[2]/ul/div[2]/button");
 
 	protected WebDriver driver;
 	private String baseUrl;

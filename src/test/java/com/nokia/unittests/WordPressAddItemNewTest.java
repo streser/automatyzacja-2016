@@ -12,7 +12,7 @@ import com.nokia.testautomation.model.LoginPage;
 import com.nokia.testautomation.model.PostAddPage;
 import com.nokia.testautomation.model.PostViewPage;
 
-public class WordPressAddItemNewTest extends WordPressBaseTest
+public class WordPressAddItemNewTest extends WordPressBase
 {
 	String postTitle;
 	

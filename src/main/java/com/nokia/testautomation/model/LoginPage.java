@@ -6,8 +6,8 @@ import org.openqa.selenium.WebElement;
 public class LoginPage extends Page{
 
 	public LoginPage(WebDriver driver) {
-		super();
-		this.driver = driver;
+		super(driver);
+		
 	}
 
 	public void open() {

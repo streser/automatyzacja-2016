@@ -9,6 +9,11 @@ public abstract class Page
 {
 	protected WebDriver driver;	
 	
+	public Page(WebDriver driver) {
+		super();
+		this.driver = driver;
+	}
+
 	protected void insertText(WebElement element, String text) {
 		  element.clear();
 		  element.sendKeys(text);  

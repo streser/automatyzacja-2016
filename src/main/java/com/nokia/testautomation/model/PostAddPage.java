@@ -10,8 +10,8 @@ public class PostAddPage extends Page{
 	private static final String SHOW_NEW_POST_TEXT = "Zobacz wpis";
 	
 	public PostAddPage(WebDriver driver) {
-		super();
-		this.driver = driver;
+		super(driver);
+		
 	}
 
 	public void fillPost(String postTitle) throws Exception {

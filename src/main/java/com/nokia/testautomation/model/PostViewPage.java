@@ -6,8 +6,7 @@ import org.openqa.selenium.WebElement;
 public class PostViewPage extends Page{
 
 	public PostViewPage(WebDriver driver) {
-		super();
-		this.driver = driver;
+		super(driver);
 	}
 
 	public boolean isPostPresent(String postTitle) throws Exception {

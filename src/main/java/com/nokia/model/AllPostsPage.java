@@ -37,7 +37,8 @@ public class AllPostsPage extends Page {
 	}
 
 	public boolean isDeletionSuccessful(String title) {
-		return isElementPresent(By.xpath("//div[2]/div/div[2]/div[1]/main/div[2]/div/div/img"));
+		//return isElementPresent(By.xpath("//div[2]/div/div[2]/div[1]/main/div[2]/div/div/img"));
+		return isElementPresent(By.linkText(LINK_AFTER_DELETE));
 	}
 
 }

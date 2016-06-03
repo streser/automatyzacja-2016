@@ -22,8 +22,8 @@ public class DeletePost extends SeleniumContext{
 		AllPostsPage app = new AllPostsPage(driver);
 		app.findPost(title, true);
 		app.deletePost(title);
-		app.findPost(title, false);
+		//app.findPost(title, false);
 		Assert.assertTrue(app.isDeletionSuccessful(title));
-		lp.logOut();
+		//lp.logOut();
 	}
 }

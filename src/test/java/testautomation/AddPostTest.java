@@ -20,17 +20,24 @@ public class AddPostTest extends SeleniumBase {
 		openLogIn();
 		logIn("szkolenieautomatyzacja", "qw12qw12");
 		
-		click(By.xpath("//div[2]/div/header/a[3]"));
-		waitForElement("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
+		clickAddPost();
+		addTextToPost();
+		open("https://automatyzacjacs.wordpress.com");
+		assertThatPostWasAdded();
+		//logOut();
+	}
+
+	private void addTextToPost() throws InterruptedException {
 		insertTextByXPath("", "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
 		insertTextByXPath("Komentarz", "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea");
 		insertTextByXPath(title, "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
 		click(By.xpath("//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]"));
-		//waitForElement("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/span/a");
 		waitForElementByLinkText("automatyzacjacs");
-		open("https://automatyzacjacs.wordpress.com");
-		assertThatPostWasAdded();
-		//logOut();
+	}
+
+	private void clickAddPost() throws InterruptedException {
+		click(By.xpath("//div[2]/div/header/a[3]"));
+		waitForElement("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
 	}
 	
 	private void assertThatPostWasAdded() throws Exception {

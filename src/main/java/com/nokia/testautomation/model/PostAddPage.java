@@ -23,9 +23,11 @@ public class PostAddPage extends Page{
 		WebElement publishButton = findElementByXpath(POST_PUBLISH_BUTTON_XPATH);
 		publishButton.click();
 		
+	}
+	
+	public void goToPostViewPage() throws Exception {
 		WebElement showPostButton = findElementByLinkText(SHOW_NEW_POST_TEXT);
 		openUrl(showPostButton.getAttribute("href"));
-		
 	}
 
 }

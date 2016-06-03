@@ -11,6 +11,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class SeleniumBase {
 
@@ -36,7 +38,12 @@ public abstract class SeleniumBase {
 	    waitForElement(By.xpath("(//button[@type='submit'])[2]"));
 		click(logoutButton);
 	}
-
+	
+	public void waitForElements(By locator) {
+		WebDriverWait wait = new WebDriverWait(driver, 2);
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+	}
+	
 	public void waitForElement(By id) throws InterruptedException {
 		for (int second = 0;; second++) {
 	    	if (second >= 60) fail("timeout");

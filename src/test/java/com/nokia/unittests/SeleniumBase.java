@@ -60,6 +60,10 @@ public class SeleniumBase {
 	protected WebElement getWebElementById(String id) {
 		  return driver.findElement(By.id(id));
 	  }
+	
+	protected WebElement getWebElementByCss(String selector) {
+		  return driver.findElement(By.cssSelector(selector));
+	  }
 
 	protected WebElement findElementByLinkText(String linkText)
 			throws InterruptedException {
@@ -113,4 +117,10 @@ public class SeleniumBase {
 	}
 	
 
+	protected void logOut() throws InterruptedException {
+		WebElement logOutElem = getWebElementByCss("img.gravatar");
+		logOutElem.click();
+		WebElement buttonLogOtuElem = findElementByXpath("(//button[@type='submit'])[2]");
+		buttonLogOtuElem.click();
+	}
 }

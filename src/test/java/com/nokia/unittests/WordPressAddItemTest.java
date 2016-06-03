@@ -45,7 +45,9 @@ public class WordPressAddItemTest extends SeleniumBase {
 		openUrl(showPostButton.getAttribute("href"));
 				
 		WebElement postTitleCheckElement = findElementByLinkText(uniqueTitleText);		
-		Assert.assertTrue(postTitleCheckElement != null);
+		//Assert.assertTrue(postTitleCheckElement != null);
+		
+		//logOut();
 	}
 
 }

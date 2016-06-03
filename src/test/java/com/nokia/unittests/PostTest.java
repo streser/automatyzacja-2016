@@ -15,15 +15,18 @@ public class PostTest extends SeleniumBase {
 
 	@Test
 	public void shouldNewPostAdded() throws InterruptedException {
+		//given
 		openLoginForm();
 		logIn("szkolenieautomatyzacja", "qw12qw12");
+		//when
 		uniqueNumber = "adamp-" + randomName();
 		createNewPost(uniqueNumber);
-		driver.get("https://automatyzacjacs.wordpress.com/");
+		//then
 		checkPostName();
 	}
 
 	private void checkPostName() {
+		driver.get("https://automatyzacjacs.wordpress.com/");
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(new Predicate<WebDriver>() {
 			public boolean apply(WebDriver input) {

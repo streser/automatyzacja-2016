@@ -54,6 +54,6 @@ public class WordPressAddItemNewTest
 	{
 		driver.quit();
 	}
-	}
+	
 
 }

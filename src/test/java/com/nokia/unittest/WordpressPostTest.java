@@ -2,9 +2,11 @@ package com.nokia.unittest;
 
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 
+@Ignore
 public class WordpressPostTest extends SeleniumBase {
 
     private static final String BLOGURL = "automatyzacjacs.wordpress.com/";

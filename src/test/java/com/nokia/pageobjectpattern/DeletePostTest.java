@@ -13,7 +13,7 @@ public class DeletePostTest extends SeleniumTest {
 	@Test
 
 	public void shouldDeletePost() throws InterruptedException {
-		String title = "MarekP" + UUID.randomUUID().toString();
+		String title = "DeletePostMarekP" + UUID.randomUUID().toString();
 
 		LoginPage lp = new LoginPage(driver);
 		lp.open("https://pl.wordpress.com/");

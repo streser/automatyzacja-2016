@@ -2,6 +2,7 @@ package com.nokia.unittests;
 
 import static org.junit.Assert.fail;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
@@ -10,14 +11,21 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-public abstract class  SeleniumBase {
+public abstract class SeleniumBase {
 
 	private static final By LOGOUT_BUTTON_LOCATOR = By.xpath("(//button[@type='submit'])[2]");
 	protected WebDriver driver;
 	protected String baseUrl;
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
+
+	public String randomName() {
+
+		return UUID.randomUUID().toString();
+	}
 
 	public SeleniumBase() {
 		super();
@@ -28,8 +36,14 @@ public abstract class  SeleniumBase {
 		driver = new FirefoxDriver();
 		// baseUrl = "https://pl.wordpress.com/";
 		baseUrl = "https://pl.wordpress.com";
-	
+
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	}
+	
+	public void waitForElement(By identifier) {
+		
+		WebDriverWait wait = new WebDriverWait(driver,10);
+		wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(identifier));
 	}
 
 	protected void logOut() throws InterruptedException {
@@ -51,20 +65,20 @@ public abstract class  SeleniumBase {
 		open("/");
 		click(By.linkText("Zaloguj się"));
 		insertText(login, By.id("user_login"));
-		insertText(password,By.id("user_pass"));
+		insertText(password, By.id("user_pass"));
 		click(By.id("wp-submit"));
 	}
 
-	private void insertText(String text, By identifier) {
+	protected void insertText(String text, By identifier) {
 		driver.findElement(identifier).clear();
 		driver.findElement(identifier).sendKeys(text);
 	}
 
-	private void click(By identifier) {
+	protected void click(By identifier) {
 		driver.findElement(identifier).click();
 	}
 
-	private void open(String path) {
+	protected void open(String path) {
 		driver.get(baseUrl + path);
 	}
 

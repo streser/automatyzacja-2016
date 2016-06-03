@@ -17,31 +17,19 @@ public class newPostTest extends SeleniumBase {
 	
 	private String title; 
 	
-	@Before
-	public void beforeTest() {
-		title = "Rafal_"+randomName();
-	}
 
 	@Test
 	public void TestPost() throws Exception {
-		title = "rafal_"+randomName();
+		title = "Rafal_"+randomName();
 		logIn("szkolenieautomatyzacja", "qw12qw12");
-		click(By.xpath("/html/body/div[2]/div/header/a[3]"));
-		waitForElement(By.xpath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input"));
-		click(By.className("editor-ground-control__publish-button"));
-		//insertText(title,By.xpath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input"));
-		insertText(title, By.className("form-text-input"));
+		insertPost(title);
 		
-		//click(By.xpath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]"));
-		click(By.className("editor-ground-control__publish-button"));
-		//Thread.sleep(5000);
-		waitForElement(By.linkText("automatyzacjacs"));
+		checkPostName();
+
 		
-		//opennew("https://automatyzacjacs.wordpress.com");
-		
-		//driver.switchTo().alert().accept();
-		//waitForElement(By.xpath("/html/body/div[1]/div/div[2]/main/div/article[1]/a"));
-		
+	}
+
+	private void checkPostName() {
 		driver.get("https://automatyzacjacs.wordpress.com/");
 
 		WebDriverWait wait = new WebDriverWait(driver, 10);
@@ -50,8 +38,19 @@ public class newPostTest extends SeleniumBase {
 				return assertThatPostWasAdded(driver, title) != null;
 			}
 		});
+	}
 
+	private void insertPost(String title) {
+		click(By.xpath("//div[2]/div/header/a[3]"));
+		waitForElement(By.xpath("//div/input"));
+		click(By.className("editor-ground-control__publish-button"));
+		//insertText(title,By.xpath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input"));
+		insertText(title, By.className("form-text-input"));
 		
+		//click(By.xpath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]"));
+		click(By.className("editor-ground-control__publish-button"));
+		//Thread.sleep(5000);
+		waitForElement(By.linkText("automatyzacjacs"));
 	}
 	
 	private WebElement assertThatPostWasAdded(WebDriver driver, String title) {
@@ -70,7 +69,7 @@ public class newPostTest extends SeleniumBase {
 
 	
 	private void assertThatPostSuccessful() {
-		assertEquals(title, driver.findElement(By.xpath("/html/body/div[1]/div/div[2]/main/div/article[1]/a")).getAttribute("title"));
+		assertEquals(title, driver.findElement(By.xpath("//div/article[1]/a")).getAttribute("title"));
 		///html/body/div[1]/div/div[2]/main/div/article[1]/a
 		// /html/body/div[1]/div/div[2]/main/div/article[2]/a
 		//html body.home.blog.logged-in.admin-bar.no-customize-support.mp6.customizer-styles-applied.no-featured-posts.highlander-enabled.highlander-light.infinite-scroll div#page.hfeed.site div.site-inner div#content.site-content main#primary.content-area div#posts.posts article#post-247.post-247.post.type-post.status-publish.format-standard.hentry.category-bez-kategorii a.cover-link

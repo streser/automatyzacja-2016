@@ -10,7 +10,7 @@ import org.openqa.selenium.*;
 
 public class WordPressTest extends SeleniumBase {
 	
-  //@Test
+  @Test
   public void testAutomation() throws Exception {
     
     //logIn("szkolenieautomatyzacja", "qw12qw12");
@@ -22,7 +22,7 @@ private void checkLoginSuccessful() {
 	assertTrue(isElementPresent(By.xpath("//header[@id='header']/a[2]/span")) != null);
 }
 
-//@After
+@After
   public void tearDown() throws Exception {
     driver.quit();
     String verificationErrorString = verificationErrors.toString();

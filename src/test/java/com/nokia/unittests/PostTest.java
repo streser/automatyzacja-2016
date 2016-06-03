@@ -33,7 +33,7 @@ public class PostTest extends SeleniumBase {
 		waitForElement(By.linkText("automatyzacjacs"));
 
 	}
-	
+
 	private void checkPostName() {
 		driver.get("https://automatyzacjacs.wordpress.com/");
 		WebDriverWait wait = new WebDriverWait(driver, 10);

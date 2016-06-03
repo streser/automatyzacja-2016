@@ -23,17 +23,5 @@
 			<artifactId>selenium-java</artifactId>
 			<version>2.53.0</version>
 		</dependency>
-		<!-- http://mvnrepository.com/artifact/net.sourceforge.htmlunit/htmlunit -->
-		<dependency>
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>htmlunit</artifactId>
-			<version>2.22</version>
-		</dependency>
-		<!-- http://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-htmlunit-driver -->
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-htmlunit-driver</artifactId>
-			<version>2.52.0</version>
-		</dependency>
 	</dependencies>
 </project>

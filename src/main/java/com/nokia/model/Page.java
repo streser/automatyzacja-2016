@@ -44,6 +44,19 @@ public class Page {
 			Thread.sleep(1000);
 		}
 	}
+	
+	protected void waitForElementByClass(String path) throws InterruptedException {
+		for (int second = 0;; second++) {
+			if (second >= 60)
+				fail("timeout");
+			try {
+				if (isElementPresent(By.className(path)))
+					break;
+			} catch (Exception e) {
+			}
+			Thread.sleep(1000);
+		}
+	}
 
 	protected void waitForElementByLinkText(String path) throws InterruptedException {
 		for (int second = 0;; second++) {

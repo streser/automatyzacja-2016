@@ -23,4 +23,10 @@ public class LoginPage extends Page {
 		open(baseUrl + "/");
 		click(By.linkText("Zaloguj się"));
 	}
+	
+	public void logOut() throws InterruptedException {
+		click(By.cssSelector("img.gravatar"));
+		waitForElement("(//button[@type='submit'])[2]");
+		click(By.xpath("(//button[@type='submit'])[2]"));
+	}
 }

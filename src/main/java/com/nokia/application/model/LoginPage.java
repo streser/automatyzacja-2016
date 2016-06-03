@@ -14,14 +14,22 @@ public class LoginPage extends Page {
     }
 
     public PostPage logIn() throws InterruptedException {
-	// TODO Auto-generated method stub
+	return logIn(WP_LOGIN, WP_PASS);
+    }
+    
+    public PostPage logIn(String user, String pass) throws InterruptedException {
+	try {
 	openUrl(START_PAGE);
 	click(By.className("click-wpcom-login"));
-	insertTextInto("user_login", WP_LOGIN);
-	insertTextInto("user_pass", WP_PASS);
+	insertTextInto("user_login", user);
+	insertTextInto("user_pass", pass);
 	click(By.id("wp-submit"));
 	assertLoginSuccessfull();
 	return new PostPage(driver);
+	} catch(AssertionError e) {
+	    return null;
+	}
+	
     }
 
     private void assertLoginSuccessfull() throws InterruptedException {

@@ -66,7 +66,6 @@ public class Page {
     public void acceptAlertIfPresent() {
 	if (!isAlertPresent())
 	    return;
-	// driver.switchTo().alert();
 	driver.switchTo().alert().accept();
 	driver.switchTo().defaultContent();
     }

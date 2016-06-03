@@ -6,23 +6,20 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.nokia.testautomation.model.BlogPage;
 import com.nokia.testautomation.model.LoginPage;
 import com.nokia.testautomation.model.PostAddPage;
 import com.nokia.testautomation.model.PostViewPage;
 
-public class WordPressAddItemNewTest 
+public class WordPressAddItemNewTest extends WordPressBaseTest
 {
-	WebDriver driver;
 	String postTitle;
 	
 	@Before
 	public void beforeTest()
 	{
-		driver = new FirefoxDriver();	
+		init();
 		postTitle = "pawelg " + UUID.randomUUID().toString();		
 	}
 	

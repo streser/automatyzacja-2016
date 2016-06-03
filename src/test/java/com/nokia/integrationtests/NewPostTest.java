@@ -6,8 +6,6 @@ import com.nokia.application.model.BlogPage;
 import com.nokia.application.model.LoginPage;
 import com.nokia.application.model.PostPage;
 
-
-
 public class NewPostTest extends TestScrenario {
 
     private static final String POST_TEXT = "Post text";

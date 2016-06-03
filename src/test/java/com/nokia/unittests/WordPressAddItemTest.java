@@ -17,13 +17,13 @@ public class WordPressAddItemTest extends SeleniumBase {
 	private static final String POST_TITLE_ELEMENT_XPATH = "//input[@class=\"editor-title__input form-text-input\"]";
 	private static final String POST_PUBLISH_BUTTON_XPATH = "//button[@class=\"editor-ground-control__publish-button button is-primary\"]";
 	
-	@Before
+	//@Before
 	public void beforeTest()
 	{
 		uniqueTitleText = "pawelg " + UUID.randomUUID().toString();;
 	}
 	
-	@Test
+	//@Test
 	public void testAdd() throws Exception
 	{
 		logIn("szkolenieautomatyzacja", "qw12qw12");

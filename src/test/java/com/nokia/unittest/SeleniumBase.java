@@ -59,7 +59,7 @@ public class SeleniumBase {
 
     protected void waitForElement(By selector) throws InterruptedException {
 	for (int second = 0;; second++) {
-	    if (second >= 60)
+	    if (second >= 10)
 		fail("timeout");
 	    try {
 		if (isElementPresent(selector))

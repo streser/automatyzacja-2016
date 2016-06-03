@@ -4,16 +4,20 @@ import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
 public abstract class SeleniumBase {
 
+    public static final By LOGOUT_BUTTON_LOCATOR = By.xpath("(//button[@type='submit'])[2]");
+
     private WebDriver driver;
     private String baseUrl;
-    private boolean acceptNextAlert = true;
     private StringBuffer verificationErrors = new StringBuffer();
 
     @Before
@@ -32,6 +36,15 @@ public abstract class SeleniumBase {
         }
     }
 
+    public void waitForElement(By identifier) {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(identifier));
+    }
+
+    public String randomName() {
+        return UUID.randomUUID().toString();
+    }
+
     protected void openLogInForm() {
         open("/");
         click(By.linkText("Zaloguj się"));
@@ -43,17 +56,17 @@ public abstract class SeleniumBase {
 
         click(By.id("rememberme"));
         click(By.id("wp-submit"));
-    }
+    }j
 
     protected void logOut() throws InterruptedException {
         click(By.cssSelector("img.gravatar"));
 
         for (int second = 0;; second++) {
             if (second >= 60) fail("timeout");
-            try { if (isElementPresent(By.xpath("(//button[@type='submit'])[2]"))) break; } catch (Exception e) {}
+            try { if (isElementPresent(LOGOUT_BUTTON_LOCATOR)) break; } catch (Exception e) {}
             Thread.sleep(1000);
         }
-        click(By.xpath("(//button[@type='submit'])[2]"));
+        click(LOGOUT_BUTTON_LOCATOR);
     }
 
     private void open(String path) {

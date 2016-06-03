@@ -11,6 +11,14 @@ import org.openqa.selenium.By;
 
 public class SeleniumBase {
 
+	private static final String BLOG_VIEW_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/a/span";
+	private static final String BLOG_PUBLISHED_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/a/span";
+	private static final String BLOG_TEXTAREA_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea";
+	private static final String BLOG_TITLE_TXT_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[3]/div/input";
+	private static final String BLOG_SUBMIT_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]";
+	private static final String BLOG_TEXT_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea";
+	private static final String BLOG_TITLE_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input";
+	private static final String BLOG_HEADER_XPATH = "//div[2]/div/header/a[3]";
 	private WebDriver driver;
 	private String baseUrl;
 	private StringBuffer verificationErrors = new StringBuffer();
@@ -38,22 +46,32 @@ public class SeleniumBase {
 		MyClick("wp-submit");
 	}
 
-	protected void BlogWebTest(String BlogTitle, String BlogText) throws Exception {
+	protected void AddNewWebBlogTest(String BlogTitle, String BlogText) throws Exception {
 
-		BlogTitle = BlogTitle + " ID: "+ randomName();
-		BlogText = BlogText + " ID: "+ randomName();
-		waitForElement(By.xpath("//div[2]/div/header/a[3]"));
-		driver.findElement(By.xpath("//div[2]/div/header/a[3]")).click();
-		InstertTextByXpath(BlogTitle, "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
-		InstertTextByXpath(BlogText, "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea");
-		driver.findElement(By.xpath("//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]")).click();
-		
+		waitForElement(By.xpath(BLOG_HEADER_XPATH));
+		driver.findElement(By.xpath(BLOG_HEADER_XPATH)).click();
+		InstertTextByXpath(BlogTitle, BLOG_TITLE_XPATH);
+		InstertTextByXpath(BlogText, BLOG_TEXT_XPATH);
+		driver.findElement(By.xpath(BLOG_SUBMIT_XPATH)).click();
+
 	}
 
+	protected void VerifyNewWebBlogTest(String BlogTitle, String BlogText) throws Exception {
+
+		waitForElement(By.xpath(BLOG_PUBLISHED_XPATH));
+		driver.findElement(By.xpath(BLOG_TITLE_TXT_XPATH)).click();
+		// TODO verify BlogTitle
+		driver.findElement(By.xpath(BLOG_TEXTAREA_XPATH)).click();
+		// TODO verify BlogText
+		waitForElement(By.xpath(BLOG_VIEW_XPATH));
+		//driver.findElement(By.xpath(BLOG_VIEW_XPATH)).click();
+
+	}
+	
 	public String randomName() {
 		return UUID.randomUUID().toString();
 	}
-	
+
 	public void waitForElement(By locator) throws InterruptedException {
 		for (int second = 0;; second++) {
 			if (second >= 60)
@@ -84,7 +102,7 @@ public class SeleniumBase {
 	private void InstertTextByXpath(String InputText, String FieldID) {
 		driver.findElement(By.xpath(FieldID)).click();
 		driver.findElement(By.xpath(FieldID)).sendKeys(InputText);
-		driver.findElement(By.xpath(FieldID)).click();		
+		driver.findElement(By.xpath(FieldID)).click();
 	}
 
 	private void MyClick(String IdentyfyID) {

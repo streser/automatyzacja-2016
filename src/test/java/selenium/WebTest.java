@@ -11,6 +11,8 @@ public class WebTest extends SeleniumBase {
 	public void testSeleniumTestJunit() throws Exception {
 		SetupWebTestEnv();
 		LoginForWebTest("szkolenieautomatyzacja", "qw12qw12");
-		BlogWebTest("BlogTitle by edmundb", "BlogText by edmundb");
+		String BlogID = randomName();
+		AddNewWebBlogTest("BlogTitle by edmundb. ID: " + BlogID, "BlogText by edmundb. ID: " + BlogID);
+		VerifyNewWebBlogTest("BlogTitle by edmundb. ID: " + BlogID, "BlogText by edmundb. ID: " + BlogID);
 	}
 }

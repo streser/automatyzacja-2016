@@ -14,7 +14,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class SeleniumBase {
 
-    private WebDriver driver;
+    protected WebDriver driver;
     private String baseUrl;
     private StringBuffer verificationErrors = new StringBuffer();
 
@@ -24,92 +24,105 @@ public class SeleniumBase {
 
     @Before
     public void setUp() throws Exception {
-        driver = new FirefoxDriver();
-        baseUrl = "https://wordpress.com";
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	driver = new FirefoxDriver();
+	baseUrl = "https://wordpress.com";
+	driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
     }
 
     protected void wordpressLogout() throws InterruptedException {
-        click(By.className("masterbar__item-me"));
-        waitForElement(By.xpath("(//button[@type='submit'])[2]"));
-        click(By.xpath("(//button[@type='submit'])[2]"));
+	click(By.className("masterbar__item-me"));
+	acceptAlertIfPresent();
+	waitForElement(By.xpath("(//button[@type='submit'])[2]"));
+	click(By.xpath("(//button[@type='submit'])[2]"));
     }
 
-    private void click(By element) {
+    public void click(By element) {
 	driver.findElement(element).click();
     }
 
     protected void wordpressLogin(String login, String pass) {
-        openLoginPage();
-        insertTextInto("user_login", login);
-        insertTextInto("user_pass", pass);
-        click(By.id("wp-submit"));
+	openLoginPage();
+	insertTextInto("user_login", login);
+	insertTextInto("user_pass", pass);
+	click(By.id("wp-submit"));
     }
 
     private void openLoginPage() {
-        driver.get(baseUrl + "/");
-        click(By.className("click-wpcom-login"));
+	driver.get(baseUrl + "/");
+	click(By.className("click-wpcom-login"));
     }
 
-    public void openBlog() {
-        driver.get("automatyzacjacs.wordpress.com/");
+    public void openUrl(String url) {
+	driver.get(url);
     }
 
     protected void waitForElement(By selector) throws InterruptedException {
-        for (int second = 0;; second++) {
-            if (second >= 60)
-        	fail("timeout");
-            try {
-        	if (isElementPresent(selector))
-        	    break;
-            } catch (Exception e) {
-            }
-            Thread.sleep(1000);
-        }
+	for (int second = 0;; second++) {
+	    if (second >= 60)
+		fail("timeout");
+	    try {
+		if (isElementPresent(selector))
+		    break;
+	    } catch (Exception e) {
+	    }
+	    Thread.sleep(1000);
+	}
     }
 
     private void insertTextInto(String fieldName, String text) {
 	insertText(By.id(fieldName), text);
     }
 
-    private void insertText(By fieldName, String text) {
-        driver.findElement(fieldName).clear();
-        driver.findElement(fieldName).sendKeys(text);
+    protected void insertText(By fieldName, String text) {
+	driver.findElement(fieldName).clear();
+	driver.findElement(fieldName).sendKeys(text);
     }
 
     @After
     public void tearDown() throws Exception {
-        driver.quit();
-        String verificationErrorString = verificationErrors.toString();
-        if (!"".equals(verificationErrorString)) {
-            fail(verificationErrorString);
-        }
+	driver.quit();
+	String verificationErrorString = verificationErrors.toString();
+	if (!"".equals(verificationErrorString)) {
+	    fail(verificationErrorString);
+	}
     }
 
     protected boolean isElementPresent(By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        } catch (NoSuchElementException e) {
-            return false;
-        }
+	try {
+	    driver.findElement(by);
+	    return true;
+	} catch (NoSuchElementException e) {
+	    return false;
+	}
     }
-    
+
     public String randomName() {
 	return "witw " + UUID.randomUUID().toString();
     }
 
-    public String createPost() throws InterruptedException {
-	String pName = randomName();
-	waitForElement(By.className("masterbar__item-new"));
-	click(By.className("masterbar__item-new")); // new post
-	insertText(By.className("editor-title__input"),pName);
-	driver.switchTo().frame(driver.findElement(By.id("tinymce-1_ifr")));
-	//do your stuff
-	//insertTextInto("tinymce-1_ifr", pName);
-	driver.switchTo().defaultContent();
-	click(By.className("editor-ground-control__publish-button"));
-	waitForElement(By.className("notice__content"));
-	return pName;
+    public void switchFrame(By frame) {
+	driver.switchTo().frame(driver.findElement(frame));
     }
+
+    public void switchFrame() {
+	driver.switchTo().defaultContent();
+    }
+    
+    public boolean isAlertPresent() {
+	    try {
+	        driver.switchTo().alert();
+	        return true;
+	    }
+	    catch (Exception e) {
+	        return false;
+	    }
+	}
+    
+    public void acceptAlertIfPresent() {
+	if (!isAlertPresent()) return;
+	driver.switchTo().alert();
+	driver.switchTo().alert().accept();
+	driver.switchTo().defaultContent();
+    }
+    
 }

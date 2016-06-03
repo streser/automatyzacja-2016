@@ -19,7 +19,7 @@ public class PostPage extends Page {
 	insertText(By.id("tinymce-1"), pText); // insert contents
 	waitForElement(By.className("editor-ground-control__publish-button"));
 	click(By.className("editor-ground-control__publish-button")); // publish
-	// waitForElement(By.className("notice__content"));
+	waitForElement(By.className("notice__content"));
 	return pName;
     }
 

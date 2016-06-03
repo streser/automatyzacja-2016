@@ -8,6 +8,10 @@ import org.openqa.selenium.By;
 
 public class AddPostTest extends SeleniumBase {
 
+	private static final String PUBLISH_BUTTON = "//div[2]/div/header/a[3]";
+	private static final String LINK_AFTER_POSTING = "//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]";
+	private static final String POST_TITLE = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input";
+	private static final String POST_COMMENT = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea";
 	String title;
 	
 	@Before
@@ -28,16 +32,16 @@ public class AddPostTest extends SeleniumBase {
 	}
 
 	private void addTextToPost() throws InterruptedException {
-		insertTextByXPath("", "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
-		insertTextByXPath("Komentarz", "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea");
-		insertTextByXPath(title, "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
-		click(By.xpath("//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]"));
+		insertTextByXPath("", POST_TITLE);
+		insertTextByXPath("Komentarz", POST_COMMENT);
+		insertTextByXPath(title, POST_TITLE);
+		click(By.xpath(LINK_AFTER_POSTING));
 		waitForElementByLinkText("automatyzacjacs");
 	}
 
 	private void clickAddPost() throws InterruptedException {
-		click(By.xpath("//div[2]/div/header/a[3]"));
-		waitForElement("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
+		click(By.xpath(PUBLISH_BUTTON));
+		waitForElement(POST_TITLE);
 	}
 	
 	private void assertThatPostWasAdded() throws Exception {

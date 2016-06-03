@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 
 public class SeleniumBase {
 
+	private static final By BLOG_LOGIN_CLASS_NAME = By.className("click-wpcom-login");
 	private static final String BLOG_VIEW_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/a/span";
 	private static final String BLOG_PUBLISHED_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/a/span";
 	private static final String BLOG_TEXTAREA_XPATH = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea";
@@ -36,7 +37,7 @@ public class SeleniumBase {
 
 	protected void SetupWebTestEnv() {
 		driver.get(baseUrl + "/");
-		driver.findElement(By.className("click-wpcom-login")).click();
+		driver.findElement(BLOG_LOGIN_CLASS_NAME).click();
 		driver.findElement(By.id("user_login")).isDisplayed();
 	}
 

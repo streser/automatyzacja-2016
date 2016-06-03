@@ -2,8 +2,9 @@ package com.selenium;
 
 import static org.junit.Assert.fail;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
-
+import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
@@ -16,7 +17,7 @@ public class SeleniumBase {
 	protected WebDriver driver;
 	protected String baseUrl;
 	private StringBuffer verificationErrors = new StringBuffer();
-
+	private String title;
 	public SeleniumBase() {
 		super();
 	}
@@ -50,12 +51,68 @@ public class SeleniumBase {
 
 		click(By.id("wp-submit"));
 	}
+	
+	public String randomName(){
+		return UUID.randomUUID().toString();
+	}
+	
+	public void AddPost() throws InterruptedException{
+		title = "MarekP"+randomName();
+		click(By.xpath("/html/body/div[2]/div/header/a[3]"));	
+		waitForElementXPath("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
+		insertTextByXpath(title,"//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
+		insertTextByXpath(title+randomName(), "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea");
+		insertTextByXpath(title,"//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
+		click(By.xpath("//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]"));
+		
+		
+	}
 
+	public void checkIfPostAdded() throws InterruptedException{
+		waitForElementXPath("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/span/a");
+		//waitForElementXPath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div");
+		open("https://automatyzacjacs.wordpress.com/");
+		waitForElementLinkText(title);
+		assertTrue(isElementPresent(By.linkText(title)));
+	}
+	
+	public void waitForElementXPath(String identifier) throws InterruptedException{
+		for (int second = 0;; second++) {
+			if (second >= 60)
+				fail("timeout");
+			try {
+				if (isElementPresent(By.xpath(identifier)))
+					break;
+			} catch (Exception e) {
+			}
+			Thread.sleep(1000);
+		}
+	}
+	
+	
+	public void waitForElementLinkText(String identifier) throws InterruptedException{
+		for (int second = 0;; second++) {
+			if (second >= 60)
+				fail("timeout");
+			try {
+				if (isElementPresent(By.linkText(identifier)))
+					break;
+			} catch (Exception e) {
+			}
+			Thread.sleep(1000);
+		}
+	}
+	
 	private void insertText(String user, String identifier) {
 		driver.findElement(By.id(identifier)).clear();
 		driver.findElement(By.id(identifier)).sendKeys(user);
 	}
 
+	private void insertTextByXpath(String text, String identifier) {
+		driver.findElement(By.xpath(identifier)).clear();
+		driver.findElement(By.xpath(identifier)).sendKeys(text);
+	}
+			
 	private void open(String path) {
 		driver.get(path);
 	}
@@ -86,5 +143,5 @@ public class SeleniumBase {
 			return false;
 		}
 	}
-
+	
 }

@@ -41,6 +41,10 @@ public class SeleniumBase {
 		driver.get(baseUrl + path);
 	}
 
+	public void openPage(String url) {
+		driver.get(url);
+	}
+
 	protected void logOut() throws InterruptedException {
 		driver.findElement(By.cssSelector("img.gravatar")).click();
 

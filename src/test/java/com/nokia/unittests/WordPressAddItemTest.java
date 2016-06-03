@@ -3,54 +3,49 @@ package com.nokia.unittests;
 import java.util.UUID;
 
 import org.junit.Assert;
-
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 
 public class WordPressAddItemTest extends SeleniumBase {
 	
+	private static final String SHOW_NEW_POST_TEXT = "Zobacz wpis";
+
+	private String uniqueTitleText;
+	
+	private static final String ADD_POST_URL = "https://wordpress.com/post/automatyzacjacs.wordpress.com";
+	private static final String POST_TITLE_ELEMENT_XPATH = "//input[@class=\"editor-title__input form-text-input\"]";
+	private static final String POST_PUBLISH_BUTTON_XPATH = "//button[@class=\"editor-ground-control__publish-button button is-primary\"]";
+	
+	@Before
+	public void beforeTest()
+	{
+		uniqueTitleText = "pawelg " + UUID.randomUUID().toString();;
+	}
+	
 	@Test
 	public void testAdd() throws Exception
 	{
 		logIn("szkolenieautomatyzacja", "qw12qw12");
-		String content = "content text";
-		
-		openUrl("https://wordpress.com/post/automatyzacjacs.wordpress.com");
-		WebElement titleElement = waitForElementByXpath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input");
-		
-		String uuid = UUID.randomUUID().toString();
-		String uniqueTilteText = "pawelg " + uuid;
-		
-		insertText(titleElement, uniqueTilteText);
-		
-		WebElement contentElement = waitForElementByXpath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea");
-		
-		insertText(contentElement,content);
-		
-		WebElement publishButton = waitForElementByXpath("/html/body/div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]");
-		
-		insertText(titleElement, uniqueTilteText);
-		
+		addPostAndCheck();		
 				
+	}
+
+	private void addPostAndCheck() throws InterruptedException {
+		
+		openUrl(ADD_POST_URL);
+				
+		WebElement titleElement = waitForElementByXpath(POST_TITLE_ELEMENT_XPATH);
+		insertText(titleElement, uniqueTitleText);
+		
+		WebElement publishButton = waitForElementByXpath(POST_PUBLISH_BUTTON_XPATH);
 		publishButton.click();
 		
-		WebElement postAddDone = waitForElementByLinkText("Zobacz wpis");
-														   //html/body/div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/span/a
-		//postAddDone.click();
-		//Thread.sleep(10000);
-		System.out.println("opening url");
-		openUrl("https://automatyzacjacs.wordpress.com");
-		System.out.println("url opened");
-		
-		WebElement postElementTitle = waitForElementByLinkText(uniqueTilteText);		
-		
-		Assert.assertTrue(postElementTitle != null);
-		
-		//WebElement postElementContent = waitForElementByLinkText(content);		
-		
-		//Assert.assertTrue(postElementContent != null);
-		
-		
+		WebElement showPostButton = waitForElementByLinkText(SHOW_NEW_POST_TEXT);
+		openUrl(showPostButton.getAttribute("href"));
+				
+		WebElement postTitleCheckElement = waitForElementByLinkText(uniqueTitleText);		
+		Assert.assertTrue(postTitleCheckElement != null);
 	}
 
 }

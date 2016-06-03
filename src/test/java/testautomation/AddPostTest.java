@@ -8,9 +8,10 @@ import org.openqa.selenium.By;
 
 public class AddPostTest extends SeleniumBase {
 
-	private static final String PUBLISH_BUTTON = "//div[2]/div/header/a[3]";
+	private static final String ADD_POST_BUTTON = "//div[2]/div/header/a[3]";
 	private static final String LINK_AFTER_POSTING = "//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]";
-	private static final String POST_TITLE = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input";
+	//private static final String POST_TITLE = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input";
+	private static final String POST_TITLE = "//input[@class=\"editor-title__input form-text-input\"]";
 	private static final String POST_COMMENT = "//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea";
 	String title;
 	
@@ -40,7 +41,7 @@ public class AddPostTest extends SeleniumBase {
 	}
 
 	private void clickAddPost() throws InterruptedException {
-		click(By.xpath(PUBLISH_BUTTON));
+		click(By.xpath(ADD_POST_BUTTON));
 		waitForElement(POST_TITLE);
 	}
 	

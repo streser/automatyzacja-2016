@@ -25,6 +25,6 @@ public class CreateDeletePostTest extends TestScrenario {
 	PostPage pp = lp.logIn();
 	pp.create(POST_TITLE, POST_TEXT);
 	PostListPage pl = new PostListPage(driver);
-	pl.deletePost(POST_TITLE);
+	pl.deletePost(POST_TITLE); // TODO
     }
 }

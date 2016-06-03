@@ -14,6 +14,7 @@ public class PostPage extends Page {
     public String create(String pName, String pText) throws InterruptedException {
 	waitForElement(By.className("masterbar__item-new"));
 	click(By.className("masterbar__item-new")); // new post
+	waitForElement(By.className("editor-title__input"));
 	insertText(By.className("editor-title__input"), pName); // title text
 	click(By.xpath("//span[@class='segmented-control__text'][text()='HTML']")); // switch to HTML editor
 	insertText(By.id("tinymce-1"), pText); // insert contents

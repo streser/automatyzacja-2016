@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -69,6 +70,15 @@ public abstract class SeleniumBase {
 	protected void insertText(By identifier, String text) {
 		driver.findElement(identifier).clear();
 		driver.findElement(identifier).sendKeys(text);
+	}
+	
+	protected boolean isElementPresent(By by) {
+		try {
+			driver.findElement(by);
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
 	}
 
 	@After

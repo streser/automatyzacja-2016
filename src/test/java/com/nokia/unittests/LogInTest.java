@@ -4,7 +4,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 
-public class WebTest extends SeleniumBase {
+public class LogInTest extends SeleniumBase {
 
 	@Test
 	public void userWithCorrectCredentialsIsSuccessfullyLogedIn() throws Exception {

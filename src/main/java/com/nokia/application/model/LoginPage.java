@@ -20,6 +20,7 @@ public class LoginPage extends Page {
     public PostPage logIn(String user, String pass) throws InterruptedException {
 	try {
 	openUrl(START_PAGE);
+	waitForElement(By.className("click-wpcom-login"));
 	click(By.className("click-wpcom-login"));
 	insertTextInto("user_login", user);
 	insertTextInto("user_pass", pass);

@@ -12,3 +12,4 @@ public class IncorrectLoginTest extends TestScrenario {
 	Assert.assertNull(lp.logIn("wrong login", "wrong pass"));
     }
 }
+	

@@ -10,6 +10,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class WordpressVerification extends SeleniumBase {
+	
+	private String uniqueNumber;
+	
 	@Test
 	public void checkIfPostIsPublished() throws InterruptedException {
 		openLoginForm();
@@ -17,7 +20,8 @@ public class WordpressVerification extends SeleniumBase {
 		waitForElement(By.className("masterbar__item-new"));
 		click(By.className("masterbar__item-new"));
 		waitForElement(By.className("form-text-input"));
-		insertText(By.className("form-text-input"), "First post of AdamP");
+		uniqueNumber = "adamp-"+randomName();
+		insertText(By.className("form-text-input"), uniqueNumber);
 		click(By.className("editor-ground-control__publish-button"));
 
 		waitForElement(By.linkText("automatyzacjacs"));
@@ -39,7 +43,7 @@ public class WordpressVerification extends SeleniumBase {
 			 * System.out.println("Old way of debugging");
 			 * System.out.println(element.getAttribute("href"));
 			 */
-			if (element.getAttribute("href").contains("first-post-of-adam")) {
+			if (element.getAttribute("href").contains(uniqueNumber)) {
 				return element;
 			}
 		}

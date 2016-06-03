@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
+import org.junit.After;
 import org.junit.Before;
 //import org.junit.Test;
 import org.openqa.selenium.By;
@@ -56,7 +57,7 @@ public class seleniumSuperClass {
 		// driver.getTitle());
 	}
 
-	protected void waitForElement(By selector) throws InterruptedException {
+	protected void waitForElement(By selector) {
 		for (int second = 0;; second++) {
 			if (second >= 60)
 				fail("timeout");
@@ -65,7 +66,12 @@ public class seleniumSuperClass {
 					break;
 			} catch (Exception e) {
 			}
-			Thread.sleep(1000);
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -86,6 +92,11 @@ public class seleniumSuperClass {
 		} catch (NoSuchElementException e) {
 			return false;
 		}
+	}
+	
+	@After
+	public void closeDriver(){
+		driver.close();
 	}
 
 }

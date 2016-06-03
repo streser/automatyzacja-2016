@@ -40,15 +40,16 @@ public class SeleniumBase {
 	driver.findElement(element).click();
     }
 
-    protected void wordpressLogin(String login, String pass) {
+    protected void wordpressLogin(String login, String pass) throws InterruptedException {
 	openLoginPage();
 	insertTextInto("user_login", login);
 	insertTextInto("user_pass", pass);
 	click(By.id("wp-submit"));
     }
 
-    private void openLoginPage() {
+    private void openLoginPage() throws InterruptedException {
 	driver.get(baseUrl + "/");
+	waitForElement(By.className("click-wpcom-login"));
 	click(By.className("click-wpcom-login"));
     }
 

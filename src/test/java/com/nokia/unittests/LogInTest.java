@@ -6,6 +6,8 @@ import org.openqa.selenium.*;
 
 public class LogInTest extends SeleniumBase {
 
+	private static final By HEADER_TEXT = By.xpath("//header[@id='header']/a[2]/span");
+
 	@Test
 	public void userWithCorrectCredentialsIsSuccessfullyLogedIn() throws Exception {
 		openLogInForm();
@@ -15,8 +17,10 @@ public class LogInTest extends SeleniumBase {
 		logOut();
 	}
 
+
+
 	private void assertThatLogInWasSuccessful() {
-		assertTrue(isElementPresent(By.xpath("//header[@id='header']/a[2]/span")));
+		assertTrue(isElementPresent(HEADER_TEXT));
 	}
 
 }

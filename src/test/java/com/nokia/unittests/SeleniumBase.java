@@ -1,6 +1,5 @@
 package com.nokia.unittests;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.concurrent.TimeUnit;
@@ -16,7 +15,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SeleniumBase {
 
-	private WebDriver driver;
+	protected static final By PROFILE_BUTTON = By.xpath("//a[@class=\"masterbar__item masterbar__item-me\"]");
+	protected static final By LOGOUT_BUTTON = By.xpath("//button[@class=\"masterbar__item masterbar__item-me\"]");
+
+	protected WebDriver driver;
 	private String baseUrl;
 	private StringBuffer verificationErrors = new StringBuffer();
 
@@ -46,10 +48,10 @@ public class SeleniumBase {
 	}
 
 	protected void logOut() {
-		waitForElement(By.xpath("//div[2]/div/header/a[4]"));
-		click(By.xpath("//div[2]/div/header/a[4]"));
-		waitForElement(By.xpath( "//div[2]/div/div[2]/div[2]/ul/div[2]/button"));
-		click(By.xpath( "//div[2]/div/div[2]/div[2]/ul/div[2]/button"));
+		waitForElement(PROFILE_BUTTON);
+		click(PROFILE_BUTTON);
+		waitForElement(LOGOUT_BUTTON);
+		click(LOGOUT_BUTTON);
 	}
 
 	protected void logIn(String user, String password) {
@@ -57,24 +59,6 @@ public class SeleniumBase {
 		insertText("user_pass", password);
 		click(By.id("rememberme"));
 		click(By.id("wp-submit"));
-	}
-
-	
-	protected void addPost(String text) throws InterruptedException {
-		click(By.xpath("//div[2]/div/header/a[3]"));
-		insertTextByXpath("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/div/input", text);
-		click(By.xpath("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/div[2]/ul/li[2]/a/span"));
-		//insertTextByXpath("//div[2]/div/div[2]/div[1]/div/div/div[1]/div[2]/textarea", text);
-		click(By.xpath("//div[2]/div/div[2]/div[1]/div/div/div[2]/div[2]/div[1]/div[3]/div/button[1]"));
-
-	}
-	
-	protected void validatePostCreated(String text) throws InterruptedException {
-		waitForElement(By.linkText("automatyzacjacs"));
-
-		driver.get("https://automatyzacjacs.wordpress.com/");
-		waitForElement(By.linkText(text));
-		assertTrue(isElementPresent(By.linkText(text)));
 	}
 
 	protected boolean isElementPresent(By by) {
@@ -91,7 +75,7 @@ public class SeleniumBase {
 		driver.findElement(By.id(elementId)).sendKeys(elementValue);
 	}
 
-	private void insertTextByXpath(String elementXpath, String elementValue) {
+	protected void insertTextByXpath(String elementXpath, String elementValue) {
 		driver.findElement(By.xpath(elementXpath)).clear();
 		driver.findElement(By.xpath(elementXpath)).sendKeys(elementValue);
 	}

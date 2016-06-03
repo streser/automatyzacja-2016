@@ -30,7 +30,7 @@ public class SeleniumBase {
     }
 
     protected void wordpressLogout() throws InterruptedException {
-        click(By.cssSelector("svg.gridicon.gridicons-user-circle  > g > path"));
+        click(By.className("masterbar__item-me"));
         waitForElement(By.xpath("(//button[@type='submit'])[2]"));
         click(By.xpath("(//button[@type='submit'])[2]"));
     }
@@ -104,9 +104,12 @@ public class SeleniumBase {
 	waitForElement(By.className("masterbar__item-new"));
 	click(By.className("masterbar__item-new")); // new post
 	insertText(By.className("editor-title__input"),pName);
+	driver.switchTo().frame(driver.findElement(By.id("tinymce-1_ifr")));
+	//do your stuff
 	//insertTextInto("tinymce-1_ifr", pName);
-	
+	driver.switchTo().defaultContent();
 	click(By.className("editor-ground-control__publish-button"));
+	waitForElement(By.className("notice__content"));
 	return pName;
     }
 }

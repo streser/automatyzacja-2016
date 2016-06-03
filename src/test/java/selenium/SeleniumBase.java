@@ -64,8 +64,6 @@ public class SeleniumBase {
 		driver.findElement(By.xpath(BLOG_TEXTAREA_XPATH)).click();
 		// TODO verify BlogText
 		waitForElement(By.xpath(BLOG_VIEW_XPATH));
-		//driver.findElement(By.xpath(BLOG_VIEW_XPATH)).click();
-
 	}
 	
 	public String randomName() {

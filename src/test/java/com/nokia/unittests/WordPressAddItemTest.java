@@ -35,16 +35,16 @@ public class WordPressAddItemTest extends SeleniumBase {
 		
 		openUrl(ADD_POST_URL);
 				
-		WebElement titleElement = waitForElementByXpath(POST_TITLE_ELEMENT_XPATH);
+		WebElement titleElement = findElementByXpath(POST_TITLE_ELEMENT_XPATH);
 		insertText(titleElement, uniqueTitleText);
 		
-		WebElement publishButton = waitForElementByXpath(POST_PUBLISH_BUTTON_XPATH);
+		WebElement publishButton = findElementByXpath(POST_PUBLISH_BUTTON_XPATH);
 		publishButton.click();
 		
-		WebElement showPostButton = waitForElementByLinkText(SHOW_NEW_POST_TEXT);
+		WebElement showPostButton = findElementByLinkText(SHOW_NEW_POST_TEXT);
 		openUrl(showPostButton.getAttribute("href"));
 				
-		WebElement postTitleCheckElement = waitForElementByLinkText(uniqueTitleText);		
+		WebElement postTitleCheckElement = findElementByLinkText(uniqueTitleText);		
 		Assert.assertTrue(postTitleCheckElement != null);
 	}
 

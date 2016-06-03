@@ -30,7 +30,7 @@ public class SeleniumBase {
 			throws InterruptedException {
 		
 				openUrl("https://pl.wordpress.com");
-				WebElement loginElement =  waitForElementByLinkText("Zaloguj się");
+				WebElement loginElement =  findElementByLinkText("Zaloguj się");
 			    loginElement.click();
 			
 			    WebElement userLogin =getWebElementById("user_login");
@@ -40,7 +40,7 @@ public class SeleniumBase {
 			    WebElement userPass = getWebElementById("user_pass");
 			    insertText(userPass,password);
 			    
-			    WebElement submitElement = waitForElementById("wp-submit");
+			    WebElement submitElement = findElementById("wp-submit");
 			    submitElement.click();
 			}
 
@@ -61,7 +61,7 @@ public class SeleniumBase {
 		  return driver.findElement(By.id(id));
 	  }
 
-	protected WebElement waitForElementByLinkText(String linkText)
+	protected WebElement findElementByLinkText(String linkText)
 			throws InterruptedException {
 				for (int second = 0;; second++) {
 			    	if (second >= 60) fail("timeout");
@@ -74,7 +74,7 @@ public class SeleniumBase {
 			    }
 			}
 
-	protected WebElement waitForElementById(String id) throws InterruptedException {
+	protected WebElement findElementById(String id) throws InterruptedException {
 		for (int second = 0;; second++) {
 	    	if (second >= 60) fail("timeout");
 	    	try 
@@ -86,7 +86,7 @@ public class SeleniumBase {
 	    }		
 	}
 	
-	protected WebElement waitForElementByXpath(String xpath) throws InterruptedException {
+	protected WebElement findElementByXpath(String xpath) throws InterruptedException {
 		for (int second = 0;; second++) {
 	    	if (second >= 60) fail("timeout");
 	    	try 

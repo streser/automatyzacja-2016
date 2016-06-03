@@ -56,7 +56,7 @@ public abstract class SeleniumBase {
 
         click(By.id("rememberme"));
         click(By.id("wp-submit"));
-    }j
+    }
 
     protected void logOut() throws InterruptedException {
         click(By.cssSelector("img.gravatar"));

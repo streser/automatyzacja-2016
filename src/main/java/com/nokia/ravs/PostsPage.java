@@ -8,6 +8,9 @@ import org.openqa.selenium.WebDriver;
 
 
 public class PostsPage extends Page{
+	private static final String POSTS_ON_BLOG = "/html/body/div[2]/div/div[2]/div[2]/div/ul/li[2]/ul/li[1]/a[1]/span";
+	private static final String MY_PAGE_BUTTON = "/html/body/div[2]/div/header/a[1]/span";
+
 	public PostsPage(WebDriver driver) {
 		super(driver);
 	}
@@ -35,5 +38,11 @@ public class PostsPage extends Page{
 
 	public BlogPage goToBlog() {
 		return new BlogPage(driver);
+	}
+
+	public AllPostsPage goToAllPostsPage() {
+		click(By.xpath(MY_PAGE_BUTTON));
+		click(By.xpath(POSTS_ON_BLOG));
+		return new AllPostsPage(driver);
 	}
 }
